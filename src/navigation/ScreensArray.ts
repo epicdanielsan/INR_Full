@@ -1,5 +1,7 @@
+import HighlightsScreen from "../screens/Highlights";
 import HomeScreen from "../screens/Home";
 import InstitucionalScreen from "../screens/Institucional";
+import MultipurposeScreen from "../screens/Multipurpose";
 import NewsScreen from "../screens/News";
 import ProfileScreen from "../screens/Profile";
 import SettingsScreen from "../screens/Settings";
@@ -35,5 +37,15 @@ export const ScreensArray: ScreensArrayProps[] = [
     route: "Institucional",
     label: "Institucional",
     component: InstitucionalScreen,
+  },
+  {
+    route: "Destaques",
+    label: "Destaques",
+    component: HighlightsScreen,
+  },
+  {
+    route: "Multipurpose",
+    label: "Daniel",
+    component: MultipurposeScreen,
   },
 ];

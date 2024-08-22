@@ -18,10 +18,13 @@ const DrawerNav = () => {
         drawerItemStyle: styles.drawerItemStyles,
         drawerActiveTintColor: Colors.primary.light,
         drawerLabelStyle: styles.drawerLabelStyles,
+        headerStyle: {
+          backgroundColor: Colors.primary.background,
+        },
         headerRight: () => (
           <Image
-            source={require("../../assets/images/Logo.jpg")}
-            style={{ width: 150, height: 50 }}
+            source={require("../../assets/icon.png")}
+            style={{ width: 40, height: 40, marginRight: 10 }}
           />
         ),
       }}
@@ -48,6 +51,7 @@ export default DrawerNav;
 const styles = StyleSheet.create({
   drawerStyle: {
     width: 300,
+    backgroundColor: Colors.primary.background,
   },
   drawerItemStyles: {
     borderRadius: constant.borderRadius,

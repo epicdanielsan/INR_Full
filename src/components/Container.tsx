@@ -6,14 +6,8 @@ interface ContainerProps {
   backgroundColor?: string;
   style?: ViewStyle;
 }
-export const Container = ({
-  children,
-  backgroundColor,
-  style,
-}: ContainerProps) => {
+export const Container = ({ children, style }: ContainerProps) => {
   return (
-    <SafeAreaView style={[styles.container, { backgroundColor }, style]}>
-      {children}
-    </SafeAreaView>
+    <SafeAreaView style={[styles.container, style]}>{children}</SafeAreaView>
   );
 };

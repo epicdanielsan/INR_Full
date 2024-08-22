@@ -6,7 +6,6 @@ import {
   ImageSourcePropType,
   NativeScrollEvent,
   NativeSyntheticEvent,
-  Text,
   View,
 } from "react-native";
 import Colors from "../../constants/Colors";
@@ -24,7 +23,7 @@ interface renderProps {
 const CustomCarousel = () => {
   const [activeIndex, setActiveIndex] = useState<number>(0);
 
-  const flatListRef = useRef<FlatList<CarouselItem>>(null);
+  const flatListRef = useRef<FlatList<any>>(null);
 
   const screenWidth = Dimensions.get("window").width;
 
@@ -75,7 +74,6 @@ const CustomCarousel = () => {
 
   return (
     <View style={styles.imageContainer}>
-      <Text>{JSON.stringify(activeIndex)}</Text>
       <FlatList
         data={carouselData}
         renderItem={renderItem}
