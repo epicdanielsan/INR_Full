@@ -1,5 +1,6 @@
 import HomeScreen from "../screens/Home";
 import InstitucionalScreen from "../screens/Institucional";
+import LegislationScreen from "../screens/Legislation";
 import NewsScreen from "../screens/News";
 
 interface MenuItem {
@@ -39,7 +40,11 @@ export const drawerMenu: DrawerMenuItem[] = [
     component: undefined,
     menuList: [
       { title: "Notícias", component: NewsScreen, route: "Notícias" },
-      { title: "Legislação", component: null },
+      {
+        title: "Legislação",
+        component: LegislationScreen,
+        route: "Legislação",
+      },
       { title: "Jurisprudência", component: null },
       { title: "Opinião", component: null },
       { title: "Perguntas e Respostas", component: null },
@@ -97,13 +102,6 @@ export const drawerMenu: DrawerMenuItem[] = [
     component: InstitucionalScreen,
     icon: "Ionicons",
     iconName: "calculator-sharp",
-  },
-  {
-    title: "Perfil",
-    route: "Perfil",
-    component: InstitucionalScreen,
-    icon: "MaterialCommunityIcons",
-    iconName: "face-man-profile",
   },
   {
     title: "Configurações",

@@ -1,16 +1,16 @@
 import { ScrollView } from "react-native";
 import { Container } from "../../components/Container";
 import Indexer from "../../components/Indexer";
-import newsMockData from "./newsMockData";
+import legislationMockData from "./legislationMockData";
 
-const NewsScreen = () => {
+const LegislationScreen = () => {
   return (
     <Container>
       <ScrollView>
-        <Indexer title="Últimas Notícias" data={newsMockData} />
+        <Indexer title="Últimos Atos Legais" data={legislationMockData} />
       </ScrollView>
     </Container>
   );
 };
 
-export default NewsScreen;
+export default LegislationScreen;

@@ -1,9 +1,9 @@
 import HighlightsScreen from "../screens/Highlights";
 import HomeScreen from "../screens/Home";
 import InstitucionalScreen from "../screens/Institucional";
+import LegislationScreen from "../screens/Legislation";
 import MultipurposeScreen from "../screens/Multipurpose";
 import NewsScreen from "../screens/News";
-import ProfileScreen from "../screens/Profile";
 import SettingsScreen from "../screens/Settings";
 
 interface ScreensArrayProps {
@@ -19,19 +19,9 @@ export const ScreensArray: ScreensArrayProps[] = [
     component: HomeScreen,
   },
   {
-    route: "Perfil",
-    label: "Perfil",
-    component: ProfileScreen,
-  },
-  {
     route: "Configurações",
     label: "Configurações",
     component: SettingsScreen,
-  },
-  {
-    route: "NewsScreen",
-    label: "NewsScreen",
-    component: NewsScreen,
   },
   {
     route: "Institucional",
@@ -45,7 +35,17 @@ export const ScreensArray: ScreensArrayProps[] = [
   },
   {
     route: "Multipurpose",
-    label: "Daniel",
+    label: "Multipurpose",
     component: MultipurposeScreen,
+  },
+  {
+    route: "NewsScreen",
+    label: "NewsScreen",
+    component: NewsScreen,
+  },
+  {
+    route: "LegislationScreen",
+    label: "LegislationScreen",
+    component: LegislationScreen,
   },
 ];
