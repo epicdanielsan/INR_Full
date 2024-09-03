@@ -47,14 +47,10 @@ const CustomDrawer = (props: Props) => {
               activeOpacity={0.8}
               key={index}
               style={[styles.menu]}
-              // style={[styles.menu, { backgroundColor: item.bg + "99" }]}
               onPress={() => {
                 LayoutAnimation.configureNext(
                   LayoutAnimation.Presets.easeInEaseOut
                 );
-                // LayoutAnimation.configureNext(
-                //   LayoutAnimation.create(200, "easeInEaseOut", "opacity")
-                // );
                 setMenuIndex(menuIndex === index ? -1 : index);
                 if (item.route) {
                   navigation.navigate(item.route as never);
@@ -94,9 +90,10 @@ const CustomDrawer = (props: Props) => {
                         key={index}
                         onPress={() => {
                           if (subMenu.component) {
-                            navigation.navigate(subMenu.component as never);
+                            navigation.navigate(subMenu.route as never);
                           } else if (subMenu.route) {
-                            navigation.navigate(subMenu.route as never); // Navigate using route
+                            return;
+                            // navigation.navigate(subMenu.route as never); // Navigate using route
                           }
                         }}
                       >

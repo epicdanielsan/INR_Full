@@ -13,18 +13,44 @@ const styles = StyleSheet.create({
     color: Colors.primary.dark,
   },
   subtitle: {
-    fontSize: 18,
+    fontSize: 15,
     color: Colors.primary.light,
   },
   paragraphContainer: {
     alignItems: "flex-start",
     textAlign: "left",
+    marginBottom: 50,
   },
   paragraph: {
-    marginLeft: 5,
+    marginLeft: 10,
   },
   boldText: {
     fontWeight: "bold",
+  },
+  buttonsContainer: {
+    // flexDirection: "row",
+  },
+  directorsContainer: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+  },
+  directorsItem: {
+    flex: 1,
+    alignItems: "center",
+  },
+  directorsTitle: {
+    marginVertical: 5,
+    color: Colors.primary.light,
+    fontSize: 15,
+    textAlign: "center",
+  },
+  buttonItem: {
+    marginVertical: 20,
+  },
+  itemTitle: {
+    color: Colors.primary.title,
+    fontSize: 16,
+    fontWeight: "500",
   },
 });
 

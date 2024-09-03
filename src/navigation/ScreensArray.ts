@@ -1,3 +1,4 @@
+import MultipurposeClassPage from "../components/Classificators/MultipurposeClassPage";
 import HighlightsScreen from "../screens/Highlights";
 import HomeScreen from "../screens/Home";
 import InstitucionalScreen from "../screens/Institucional";
@@ -5,6 +6,7 @@ import LegislationScreen from "../screens/Legislation";
 import MultipurposeScreen from "../screens/Multipurpose";
 import NewsScreen from "../screens/News";
 import SettingsScreen from "../screens/Settings";
+import SPClassificator from "../screens/SP";
 
 interface ScreensArrayProps {
   route: string;
@@ -33,19 +35,30 @@ export const ScreensArray: ScreensArrayProps[] = [
     label: "Destaques",
     component: HighlightsScreen,
   },
+
+  {
+    route: "Notícias",
+    label: "Notícias",
+    component: NewsScreen,
+  },
+  {
+    route: "Legislação",
+    label: "Legislação",
+    component: LegislationScreen,
+  },
   {
     route: "Multipurpose",
     label: "Multipurpose",
     component: MultipurposeScreen,
   },
   {
-    route: "NewsScreen",
-    label: "NewsScreen",
-    component: NewsScreen,
+    route: "Classificadores SP",
+    label: "Classificadores SP",
+    component: SPClassificator,
   },
   {
-    route: "LegislationScreen",
-    label: "LegislationScreen",
-    component: LegislationScreen,
+    route: "MultipurposeClassPage",
+    label: "MultipurposeClassPage",
+    component: MultipurposeClassPage,
   },
 ];

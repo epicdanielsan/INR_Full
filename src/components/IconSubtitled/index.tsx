@@ -1,4 +1,11 @@
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import {
+  StyleProp,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+  ViewStyle,
+} from "react-native";
 import CustomIcon from "../Icons";
 
 export type IconSubtitledProps = {
@@ -8,11 +15,14 @@ export type IconSubtitledProps = {
   size?: number;
   color?: string;
   titleStyle?: {};
+  style?: StyleProp<ViewStyle>;
 };
 
 const IconSubtitled = (props: IconSubtitledProps) => {
   return (
-    <TouchableOpacity style={{ marginVertical: 5, marginHorizontal: 10 }}>
+    <TouchableOpacity
+      style={[{ marginVertical: 5, marginHorizontal: 10 }, props.style]}
+    >
       <View style={{ justifyContent: "center", alignItems: "center" }}>
         <CustomIcon
           iconName={props.iconName}
@@ -30,6 +40,6 @@ export default IconSubtitled;
 
 const styles = StyleSheet.create({
   title: {
-    fontSize: 17,
+    fontSize: 15,
   },
 });

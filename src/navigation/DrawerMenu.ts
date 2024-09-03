@@ -2,6 +2,7 @@ import HomeScreen from "../screens/Home";
 import InstitucionalScreen from "../screens/Institucional";
 import LegislationScreen from "../screens/Legislation";
 import NewsScreen from "../screens/News";
+import SPClassificator from "../screens/SP";
 
 interface MenuItem {
   title: string;
@@ -59,7 +60,11 @@ export const drawerMenu: DrawerMenuItem[] = [
     iconName: "news",
     menuList: [
       { title: "Classificadores INR PR", component: null },
-      { title: "Classificadores INR SP", component: null },
+      {
+        title: "Classificadores INR SP",
+        component: SPClassificator,
+        route: "Classificadores SP",
+      },
       { title: "Classificadores INR RS", component: null },
       { title: "Arquivos Acumulados dos Classificadores SP", component: null },
     ],

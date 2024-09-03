@@ -6,6 +6,7 @@ import styles from "./styles";
 type highlightsProps = {
   numberOfHighlights: number;
   minHeight: number;
+  onPress?: () => void;
 };
 
 const Highlights = (props: highlightsProps) => {
@@ -36,6 +37,14 @@ const Highlights = (props: highlightsProps) => {
             </View>
           </TouchableOpacity>
         ))}
+      {props.onPress && (
+        <TouchableOpacity
+          style={styles.buttonContainer}
+          onPress={props.onPress}
+        >
+          <Text style={styles.buttonText}>Clique Aqui para ver mais</Text>
+        </TouchableOpacity>
+      )}
     </ScrollView>
   );
 };
