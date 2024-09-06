@@ -1,5 +1,6 @@
 export type RootListType = {
   SPClassificator: undefined;
-  MultipurposeClassPage: { classificador: any };
+  IndexClassScreen: { classificador: any };
+  MultipurposeClassScreen: { classificador: any };
   Início: undefined;
 };

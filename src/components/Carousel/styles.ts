@@ -9,10 +9,9 @@ const styles = StyleSheet.create({
   },
   image: {
     height: 200,
-    // width: width,
     width: width * 0.9,
-    marginHorizontal: 17,
-    borderRadius: 10,
+    marginHorizontal: 20,
+    borderRadius: 15,
   },
   dotContainer: {
     flexDirection: "row",

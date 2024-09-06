@@ -16,12 +16,14 @@ export type IconSubtitledProps = {
   color?: string;
   titleStyle?: {};
   style?: StyleProp<ViewStyle>;
+  onPress?: () => void;
 };
 
 const IconSubtitled = (props: IconSubtitledProps) => {
   return (
     <TouchableOpacity
       style={[{ marginVertical: 5, marginHorizontal: 10 }, props.style]}
+      onPress={props.onPress}
     >
       <View style={{ justifyContent: "center", alignItems: "center" }}>
         <CustomIcon

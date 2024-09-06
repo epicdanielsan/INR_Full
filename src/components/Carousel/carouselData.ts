@@ -11,4 +11,8 @@ export default [
     id: 3,
     image: require("../../../assets/images/carousel3.jpg"),
   },
+  {
+    id: 4,
+    image: require("../../../assets/images/carousel4.jpg"),
+  },
 ];

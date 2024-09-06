@@ -1,4 +1,5 @@
-import MultipurposeClassPage from "../components/Classificators/MultipurposeClassPage";
+import { default as IndexClassScreen } from "../components/Classificators/IndexClassScreen";
+import MultipurposeClassScreen from "../components/Classificators/MultipurposeClassScreen";
 import HighlightsScreen from "../screens/Highlights";
 import HomeScreen from "../screens/Home";
 import InstitucionalScreen from "../screens/Institucional";
@@ -57,8 +58,13 @@ export const ScreensArray: ScreensArrayProps[] = [
     component: SPClassificator,
   },
   {
-    route: "MultipurposeClassPage",
-    label: "MultipurposeClassPage",
-    component: MultipurposeClassPage,
+    route: "IndexClassScreen",
+    label: "Classificadores SP",
+    component: IndexClassScreen,
+  },
+  {
+    route: "MultipurposeClassScreen",
+    label: "MultipurposeClassScreen",
+    component: MultipurposeClassScreen,
   },
 ];

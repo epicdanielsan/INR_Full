@@ -5,7 +5,7 @@ const dataDummyArray: itemProps[] = [
     id: 1,
     date: "30/08/2024",
     type: "SP",
-    route: "MultipurposeClassPage",
+    route: "IndexClassScreen",
 
     content: [
       {
@@ -62,10 +62,85 @@ const dataDummyArray: itemProps[] = [
               <p style="text-align:justify"><strong><span style="color:black">DECIS&Atilde;O: Vistos. </span></strong><span style="color:black">Aprovo o parecer apresentado pela MM.&ordf; Ju&iacute;za Assessora da Corregedoria e por seus fundamentos, ora adotados, <strong>recebo </strong>a apela&ccedil;&atilde;o interposta como recurso administrativo e a ele <strong><em>nego provimento</em></strong>. Intimem-se e publique-se. S&atilde;o Paulo, 28 de agosto de 2024. <strong>(a) FRANCISCO LOUREIRO</strong>, Corregedor Geral da Justi&ccedil;a. <strong>ADV.: </strong>VALMIR DAVID ALVES DOS SANTOS, OAB/SP 131.156 e MILTON GREG&Oacute;RIO JUNIOR, OAB/SP 348.650. (Acervo INR &ndash; DJe de 02.09.2024 &ndash; </span>S<span style="color:black">P)</span></p>
             `,
           },
-          // { title: "PROCESSO Nº 0062079-06.2023.8.26.0100" },
-          // { title: "PROCESSO Nº 1005962-78.2023.8.26.0099" },
-          // { title: "PROCESSO Nº 0005160-60.2024.8.26.0100" },
-          // { title: "PROCESSO Nº 1006264-51.2023.8.26.0344" },
+          {
+            title: "PROCESSO Nº 0000689-78.2024.2.00.0826",
+            county: "CAPITAL",
+            number: "0000689-78.2024.2.00.0826",
+            species: "PROCESSO",
+            ementa: `
+              <p>Aprova&ccedil;&atilde;o do parecer da MM. Ju&iacute;za Assessora da CGJ/SP</p>
+            `,
+            html: `
+              <p style="text-align:justify"><strong><span style="color:black">PROCESSO N&ordm; 0000689-78.2024.2.00.0826 - PJECOR (origem 1118577-08.2023.8.26.0100) - S&Atilde;O PAULO - F. M. B. C. </span></strong><span style="color:white">-&ndash; Texto selecionado e originalmente divulgado pelo INR &ndash;</span></p>
+              <p style="text-align:justify"><strong><span style="color:black">DECIS&Atilde;O: </span></strong><span style="color:black">Vistos. Aprovo o parecer apresentado pela MM&ordf;. Ju&iacute;za Assessora da Corregedoria e por seus fundamentos, ora adotados, nego provimento ao recurso administrativo interposto. S&atilde;o Paulo, 23 de agosto de 2024. <strong>(a) FRANCISCO LOUREIRO</strong>, Corregedor Geral da Justi&ccedil;a. (Acervo INR &ndash; DJe de 02.09.2024 &ndash; </span>S<span style="color:black">P)</span></p>
+            `,
+          },
+          {
+            title: "PROCESSO Nº 0000689-78.2024.2.00.0826",
+            county: "CAPITAL",
+            number: "0000689-78.2024.2.00.0826",
+            species: "PROCESSO",
+            ementa: `
+              <p>Aprova&ccedil;&atilde;o do parecer da MM. Ju&iacute;za Assessora da CGJ/SP</p>
+            `,
+            html: `
+              <p style="text-align:justify"><strong><span style="color:black">PROCESSO N&ordm; 0000689-78.2024.2.00.0826 - PJECOR (origem 1118577-08.2023.8.26.0100) - S&Atilde;O PAULO - F. M. B. C. </span></strong><span style="color:white">-&ndash; Texto selecionado e originalmente divulgado pelo INR &ndash;</span></p>
+              <p style="text-align:justify"><strong><span style="color:black">DECIS&Atilde;O: </span></strong><span style="color:black">Vistos. Aprovo o parecer apresentado pela MM&ordf;. Ju&iacute;za Assessora da Corregedoria e por seus fundamentos, ora adotados, nego provimento ao recurso administrativo interposto. S&atilde;o Paulo, 23 de agosto de 2024. <strong>(a) FRANCISCO LOUREIRO</strong>, Corregedor Geral da Justi&ccedil;a. (Acervo INR &ndash; DJe de 02.09.2024 &ndash; </span>S<span style="color:black">P)</span></p>
+            `,
+          },
+          {
+            title: "PROCESSO Nº 0000689-78.2024.2.00.0826",
+            county: "CAPITAL",
+            number: "0000689-78.2024.2.00.0826",
+            species: "PROCESSO",
+            ementa: `
+              <p>Aprova&ccedil;&atilde;o do parecer da MM. Ju&iacute;za Assessora da CGJ/SP</p>
+            `,
+            html: `
+              <p style="text-align:justify"><strong><span style="color:black">PROCESSO N&ordm; 0000689-78.2024.2.00.0826 - PJECOR (origem 1118577-08.2023.8.26.0100) - S&Atilde;O PAULO - F. M. B. C. </span></strong><span style="color:white">-&ndash; Texto selecionado e originalmente divulgado pelo INR &ndash;</span></p>
+              <p style="text-align:justify"><strong><span style="color:black">DECIS&Atilde;O: </span></strong><span style="color:black">Vistos. Aprovo o parecer apresentado pela MM&ordf;. Ju&iacute;za Assessora da Corregedoria e por seus fundamentos, ora adotados, nego provimento ao recurso administrativo interposto. S&atilde;o Paulo, 23 de agosto de 2024. <strong>(a) FRANCISCO LOUREIRO</strong>, Corregedor Geral da Justi&ccedil;a. (Acervo INR &ndash; DJe de 02.09.2024 &ndash; </span>S<span style="color:black">P)</span></p>
+            `,
+          },
+          {
+            title: "PROCESSO Nº 1003096-27.2020.8.26.0415",
+            county: "PALMITAL",
+            number: "1003096-27.2020.8.26.0415",
+            species: "PROCESSO",
+            ementa: `
+              <p>Aprova&ccedil;&atilde;o do parecer da MM. Ju&iacute;za Assessora da CGJ/SP</p>
+            `,
+            html: `
+              <p style="text-align:justify"><strong><span style="color:black">PROCESSO N&ordm; 1003096-27.2020.8.26.0415 - PALMITAL - J. R. B. e OUTROS. </span></strong><span style="color:white">-&ndash; Texto selecionado e originalmente divulgado pelo INR &ndash;</span></p>
+
+              <p style="text-align:justify"><strong><span style="color:black">DECIS&Atilde;O: Vistos. </span></strong><span style="color:black">Aprovo o parecer apresentado pela MM.&ordf; Ju&iacute;za Assessora da Corregedoria e por seus fundamentos, ora adotados, <strong>recebo </strong>a apela&ccedil;&atilde;o interposta como recurso administrativo e a ele <strong><em>nego provimento</em></strong>. Intimem-se e publique-se. S&atilde;o Paulo, 28 de agosto de 2024. <strong>(a) FRANCISCO LOUREIRO</strong>, Corregedor Geral da Justi&ccedil;a. <strong>ADV.: </strong>VALMIR DAVID ALVES DOS SANTOS, OAB/SP 131.156 e MILTON GREG&Oacute;RIO JUNIOR, OAB/SP 348.650. (Acervo INR &ndash; DJe de 02.09.2024 &ndash; </span>S<span style="color:black">P)</span></p>
+            `,
+          },
+          {
+            title: "PROCESSO Nº 0000689-78.2024.2.00.0826",
+            county: "CAPITAL",
+            number: "0000689-78.2024.2.00.0826",
+            species: "PROCESSO",
+            ementa: `
+              <p>Aprova&ccedil;&atilde;o do parecer da MM. Ju&iacute;za Assessora da CGJ/SP</p>
+            `,
+            html: `
+              <p style="text-align:justify"><strong><span style="color:black">PROCESSO N&ordm; 0000689-78.2024.2.00.0826 - PJECOR (origem 1118577-08.2023.8.26.0100) - S&Atilde;O PAULO - F. M. B. C. </span></strong><span style="color:white">-&ndash; Texto selecionado e originalmente divulgado pelo INR &ndash;</span></p>
+              <p style="text-align:justify"><strong><span style="color:black">DECIS&Atilde;O: </span></strong><span style="color:black">Vistos. Aprovo o parecer apresentado pela MM&ordf;. Ju&iacute;za Assessora da Corregedoria e por seus fundamentos, ora adotados, nego provimento ao recurso administrativo interposto. S&atilde;o Paulo, 23 de agosto de 2024. <strong>(a) FRANCISCO LOUREIRO</strong>, Corregedor Geral da Justi&ccedil;a. (Acervo INR &ndash; DJe de 02.09.2024 &ndash; </span>S<span style="color:black">P)</span></p>
+            `,
+          },
+          {
+            title: "PROCESSO Nº 0000689-78.2024.2.00.0826",
+            county: "CAPITAL",
+            number: "0000689-78.2024.2.00.0826",
+            species: "PROCESSO",
+            ementa: `
+              <p>Aprova&ccedil;&atilde;o do parecer da MM. Ju&iacute;za Assessora da CGJ/SP</p>
+            `,
+            html: `
+              <p style="text-align:justify"><strong><span style="color:black">PROCESSO N&ordm; 0000689-78.2024.2.00.0826 - PJECOR (origem 1118577-08.2023.8.26.0100) - S&Atilde;O PAULO - F. M. B. C. </span></strong><span style="color:white">-&ndash; Texto selecionado e originalmente divulgado pelo INR &ndash;</span></p>
+              <p style="text-align:justify"><strong><span style="color:black">DECIS&Atilde;O: </span></strong><span style="color:black">Vistos. Aprovo o parecer apresentado pela MM&ordf;. Ju&iacute;za Assessora da Corregedoria e por seus fundamentos, ora adotados, nego provimento ao recurso administrativo interposto. S&atilde;o Paulo, 23 de agosto de 2024. <strong>(a) FRANCISCO LOUREIRO</strong>, Corregedor Geral da Justi&ccedil;a. (Acervo INR &ndash; DJe de 02.09.2024 &ndash; </span>S<span style="color:black">P)</span></p>
+            `,
+          },
         ],
       },
     ],

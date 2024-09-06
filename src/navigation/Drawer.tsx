@@ -10,6 +10,7 @@ const Drawer = createDrawerNavigator();
 const DrawerNav = () => {
   return (
     <Drawer.Navigator
+      backBehavior="history"
       screenOptions={{
         drawerType: "slide",
         overlayColor: "transparent",
