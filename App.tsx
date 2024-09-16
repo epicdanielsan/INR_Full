@@ -1,23 +1,40 @@
 import { NavigationContainer } from "@react-navigation/native";
-import { SafeAreaView, StyleSheet } from "react-native";
-import Styles from "./src/common/Styles";
-import DrawerNav from "./src/navigation/Drawer";
+import React, { useContext } from "react";
+import "react-native-gesture-handler";
 
-export default function App() {
+import * as Notifications from "expo-notifications";
+import {
+  AuthContext,
+  AuthProvider,
+} from "./src/contexts/AuthenticationContext";
+import LoggedInNavigator from "./src/navigation/LoggedInNavigator";
+import LoggedOutNavigator from "./src/navigation/LoggedOutNavigator";
+
+const AppNavigator = () => {
+  const authContext = useContext(AuthContext);
+
   return (
-    <SafeAreaView style={Styles.container}>
-      <NavigationContainer>
-        <DrawerNav />
-      </NavigationContainer>
-    </SafeAreaView>
+    <NavigationContainer>
+      {authContext.isLoggedIn ? <LoggedInNavigator /> : <LoggedOutNavigator />}
+    </NavigationContainer>
   );
-}
+};
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
+//Setup das notificações do app
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowAlert: true,
+    shouldPlaySound: false,
+    shouldSetBadge: false,
+  }),
 });
+
+const App = () => {
+  return (
+    <AuthProvider>
+      <AppNavigator />
+    </AuthProvider>
+  );
+};
+
+export default App;

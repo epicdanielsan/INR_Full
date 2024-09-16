@@ -12,6 +12,7 @@ const styles = StyleSheet.create({
     width: width * 0.9,
     marginHorizontal: 20,
     borderRadius: 15,
+    resizeMode: "contain",
   },
   dotContainer: {
     flexDirection: "row",

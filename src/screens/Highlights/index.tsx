@@ -49,6 +49,7 @@ const HighlightsScreen = () => {
         numberOfHighlights={highlightDataLength}
         minHeight={Dimensions.get("window").height}
         onPress={loadMoreHighlights}
+        // data={highlightData}
       />
     </Container>
   );

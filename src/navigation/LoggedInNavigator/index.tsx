@@ -1,13 +1,14 @@
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { Image, StyleSheet } from "react-native";
-import Colors from "../constants/Colors";
-import { constant } from "../constants/constants";
+
+import Colors from "../../constants/Colors";
+import { constant } from "../../constants/constants";
 import CustomDrawer from "./CustomDrawer";
 import { ScreensArray } from "./ScreensArray";
 
 const Drawer = createDrawerNavigator();
 
-const DrawerNav = () => {
+const LoggedInNavigator = () => {
   return (
     <Drawer.Navigator
       backBehavior="history"
@@ -24,7 +25,7 @@ const DrawerNav = () => {
         },
         headerRight: () => (
           <Image
-            source={require("../../assets/icon.png")}
+            source={require("../../../assets/icon.png")}
             style={{ width: 40, height: 40, marginRight: 10 }}
           />
         ),
@@ -47,7 +48,7 @@ const DrawerNav = () => {
   );
 };
 
-export default DrawerNav;
+export default LoggedInNavigator;
 
 const styles = StyleSheet.create({
   drawerStyle: {

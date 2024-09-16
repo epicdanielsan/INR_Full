@@ -1,8 +1,8 @@
-import HomeScreen from "../screens/Home";
-import InstitucionalScreen from "../screens/Institucional";
-import LegislationScreen from "../screens/Legislation";
-import NewsScreen from "../screens/News";
-import SPClassificator from "../screens/SP";
+import HomeScreen from "../../screens/Home";
+import InstitucionalScreen from "../../screens/Institucional";
+import LegislationScreen from "../../screens/Legislation";
+import NewsScreen from "../../screens/News";
+import SPClassificator from "../../screens/SP";
 
 interface MenuItem {
   title: string;

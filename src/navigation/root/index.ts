@@ -3,4 +3,6 @@ export type RootListType = {
   IndexClassScreen: { classificador: any };
   MultipurposeClassScreen: { classificador: any };
   Início: undefined;
+  LogIn: undefined;
+  RetrievePassword: undefined;
 };

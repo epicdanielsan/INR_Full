@@ -1,13 +1,13 @@
-import { default as IndexClassScreen } from "../components/Classificators/IndexClassScreen";
-import MultipurposeClassScreen from "../components/Classificators/MultipurposeClassScreen";
-import HighlightsScreen from "../screens/Highlights";
-import HomeScreen from "../screens/Home";
-import InstitucionalScreen from "../screens/Institucional";
-import LegislationScreen from "../screens/Legislation";
-import MultipurposeScreen from "../screens/Multipurpose";
-import NewsScreen from "../screens/News";
-import SettingsScreen from "../screens/Settings";
-import SPClassificator from "../screens/SP";
+import IndexClassScreen from "../../components/Classificators/IndexClassScreen";
+import MultipurposeClassScreen from "../../components/Classificators/MultipurposeClassScreen";
+import HighlightsScreen from "../../screens/Highlights";
+import HomeScreen from "../../screens/Home";
+import InstitucionalScreen from "../../screens/Institucional";
+import LegislationScreen from "../../screens/Legislation";
+import MultipurposeScreen from "../../screens/Multipurpose";
+import NewsScreen from "../../screens/News";
+import SettingsScreen from "../../screens/Settings";
+import SPClassificator from "../../screens/SP";
 
 interface ScreensArrayProps {
   route: string;

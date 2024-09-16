@@ -18,12 +18,12 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import Styles from "../common/Styles";
-import { Container } from "../components/Container";
-import CustomIcon from "../components/Icons";
-import { Row } from "../components/Row";
-import Colors from "../constants/Colors";
-import { constant } from "../constants/constants";
+import Styles from "../../common/Styles";
+import { Container } from "../../components/Container";
+import CustomIcon from "../../components/Icons";
+import { Row } from "../../components/Row";
+import Colors from "../../constants/Colors";
+import { constant } from "../../constants/constants";
 import { drawerMenu } from "./DrawerMenu";
 
 type Props = {

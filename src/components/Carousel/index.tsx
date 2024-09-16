@@ -14,13 +14,18 @@ import styles from "./styles";
 
 interface renderProps {
   item: {
-    id: number;
+    idbanner: number;
     image: ImageSourcePropType | undefined;
+    img: string;
   };
   index: number;
 }
 
-const CustomCarousel = () => {
+type carouselProps = {
+  data: any;
+};
+
+const CustomCarousel = (props: carouselProps) => {
   const [activeIndex, setActiveIndex] = useState<number>(0);
 
   const flatListRef = useRef<FlatList<any>>(null);
@@ -30,25 +35,30 @@ const CustomCarousel = () => {
   const renderItem = ({ item, index }: renderProps) => {
     return (
       <View>
-        <Image source={item.image} style={styles.image} />
+        <Image source={{ uri: `${item.img}` }} style={styles.image} />
       </View>
     );
   };
 
   const renderDot = () => {
-    return carouselData.map((item, index) => (
-      <View
-        style={{
-          backgroundColor:
-            activeIndex === index ? Colors.primary.light : Colors.primary.dark,
-          borderRadius: 7,
-          height: 14,
-          width: 14,
-          marginHorizontal: 5,
-        }}
-        key={index}
-      ></View>
-    ));
+    return (
+      props.data &&
+      props.data.map((item: any, index: number) => (
+        <View
+          style={{
+            backgroundColor:
+              activeIndex === index
+                ? Colors.primary.light
+                : Colors.primary.dark,
+            borderRadius: 7,
+            height: 14,
+            width: 14,
+            marginHorizontal: 5,
+          }}
+          key={index}
+        ></View>
+      ))
+    );
   };
 
   const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
@@ -75,12 +85,12 @@ const CustomCarousel = () => {
   return (
     <View style={styles.imageContainer}>
       <FlatList
-        data={carouselData}
+        data={props.data}
         renderItem={renderItem}
         horizontal
         pagingEnabled
         onScroll={handleScroll}
-        keyExtractor={(item) => item.id.toString()}
+        keyExtractor={(item) => item.idbanner.toString()}
         ref={flatListRef}
         getItemLayout={getItemLayout}
       />
