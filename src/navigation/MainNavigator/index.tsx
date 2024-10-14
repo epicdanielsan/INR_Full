@@ -1,14 +1,19 @@
 import { createDrawerNavigator } from "@react-navigation/drawer";
-import { Image, StyleSheet } from "react-native";
+import { Image, StyleSheet, Text, TouchableOpacity } from "react-native";
 
+import { useNavigation } from "@react-navigation/native";
+import { useContext } from "react";
 import Colors from "../../constants/Colors";
 import { constant } from "../../constants/constants";
+import { AuthContext } from "../../contexts/AuthenticationContext";
 import CustomDrawer from "./CustomDrawer";
 import { ScreensArray } from "./ScreensArray";
 
 const Drawer = createDrawerNavigator();
 
-const LoggedInNavigator = () => {
+const MainNavigator = () => {
+  const authContext = useContext(AuthContext);
+  const navigation = useNavigation();
   return (
     <Drawer.Navigator
       backBehavior="history"
@@ -23,12 +28,26 @@ const LoggedInNavigator = () => {
         headerStyle: {
           backgroundColor: Colors.primary.background,
         },
-        headerRight: () => (
-          <Image
-            source={require("../../../assets/icon.png")}
-            style={{ width: 40, height: 40, marginRight: 10 }}
-          />
-        ),
+        headerRight: () => {
+          if (authContext.isLoggedIn) {
+            return (
+              <Image
+                source={require("../../../assets/icon.png")}
+                style={{ width: 40, height: 40, marginRight: 10 }}
+              />
+            );
+          } else {
+            return (
+              <TouchableOpacity
+                onPress={() => {
+                  navigation.navigate("LogIn" as never);
+                }}
+              >
+                <Text style={styles.loginButton}>Entrar</Text>
+              </TouchableOpacity>
+            );
+          }
+        },
       }}
       drawerContent={(props) => <CustomDrawer {...props} />}
     >
@@ -48,7 +67,7 @@ const LoggedInNavigator = () => {
   );
 };
 
-export default LoggedInNavigator;
+export default MainNavigator;
 
 const styles = StyleSheet.create({
   drawerStyle: {
@@ -61,5 +80,11 @@ const styles = StyleSheet.create({
   drawerLabelStyles: {
     fontSize: constant.drawer.textFontSize,
     // marginHorizontal: -constant.SPACING,
+  },
+  loginButton: {
+    color: Colors.primary.dark,
+    fontWeight: "500",
+    marginHorizontal: 20,
+    fontSize: 17,
   },
 });

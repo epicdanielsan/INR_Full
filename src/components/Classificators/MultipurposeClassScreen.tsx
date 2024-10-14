@@ -1,8 +1,9 @@
 import { DrawerNavigationProp } from "@react-navigation/drawer";
 import { RouteProp } from "@react-navigation/native";
-import { useRef } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { ScrollView, Text, useWindowDimensions, View } from "react-native";
 import RenderHTML from "react-native-render-html";
+import { AuthContext } from "../../contexts/AuthenticationContext";
 import { RootListType } from "../../navigation/root";
 import BackToTopButton from "../BackToTopButton";
 import { Container } from "../Container";
@@ -32,6 +33,8 @@ const MultipurposeClassScreen = ({
 }: MultipurposeClassScreenProps) => {
   const { classificador } = route.params;
   const { width } = useWindowDimensions();
+  const authContext = useContext(AuthContext);
+  const [isLogged, setIsLogged] = useState<boolean>(false);
 
   navigation.setOptions({
     drawerLabel: `Classificador ${classificador.type}`,
@@ -51,10 +54,26 @@ const MultipurposeClassScreen = ({
 
   const randomIndex = Math.floor(Math.random() * barColors.length);
 
+  useEffect(() => {
+    if (authContext.isLoggedIn) {
+      setIsLogged(true);
+    }
+    // authContext.login();
+  }, []);
+
   return (
     <Container>
       <ScrollView ref={scrollViewRef}>
-        {classificador && (
+        {!authContext.isLoggedIn && (
+          <View style={{ flex: 1 }}>
+            <Text style={styles.notLoggedMessage}>
+              Este conteúdo é somente para assinantes. Clique no botão{" "}
+              <Text style={{ fontWeight: "500" }}>ENTRAR </Text>
+              acima para entrar e visualizar o conteúdo.
+            </Text>
+          </View>
+        )}
+        {classificador && authContext.isLoggedIn && (
           <Text
             style={[styles.bar, { backgroundColor: barColors[randomIndex] }]}
           >
@@ -62,6 +81,7 @@ const MultipurposeClassScreen = ({
           </Text>
         )}
         {classificador.acts &&
+          authContext.isLoggedIn &&
           classificador.acts.map((item1: actsType, index1: number) => (
             <View style={{ marginHorizontal: 5 }} key={index1}>
               <Text style={{ fontWeight: "500" }}>{item1.title}</Text>
@@ -74,7 +94,7 @@ const MultipurposeClassScreen = ({
             </View>
           ))}
 
-        <BackToTopButton onPress={scrollToTop} />
+        {authContext.isLoggedIn && <BackToTopButton onPress={scrollToTop} />}
       </ScrollView>
     </Container>
   );

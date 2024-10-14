@@ -37,6 +37,15 @@ const styles = StyleSheet.create({
     marginLeft: 20,
     fontWeight: "400",
   },
+  notLoggedMessage: {
+    fontSize: 20,
+    marginHorizontal: 10,
+    textAlign: "center",
+    marginVertical: 10,
+  },
+  button: {
+    marginHorizontal: 10,
+  },
 });
 
 export default styles;

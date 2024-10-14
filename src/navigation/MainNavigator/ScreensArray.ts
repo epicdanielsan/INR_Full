@@ -4,6 +4,7 @@ import HighlightsScreen from "../../screens/Highlights";
 import HomeScreen from "../../screens/Home";
 import InstitucionalScreen from "../../screens/Institucional";
 import LegislationScreen from "../../screens/Legislation";
+import LoginScreen from "../../screens/Login";
 import MultipurposeScreen from "../../screens/Multipurpose";
 import NewsScreen from "../../screens/News";
 import SettingsScreen from "../../screens/Settings";
@@ -16,6 +17,7 @@ interface ScreensArrayProps {
 }
 
 export const ScreensArray: ScreensArrayProps[] = [
+  
   {
     route: "Início",
     label: "Início",
@@ -66,5 +68,10 @@ export const ScreensArray: ScreensArrayProps[] = [
     route: "MultipurposeClassScreen",
     label: "MultipurposeClassScreen",
     component: MultipurposeClassScreen,
+  },
+  {
+    route: "LogIn",
+    label: "LogIn",
+    component: LoginScreen,
   },
 ];

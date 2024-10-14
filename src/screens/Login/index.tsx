@@ -57,7 +57,7 @@ const LoginScreen = ({ navigation }: loginScreenProps) => {
         login: user,
         senha: password,
       });
-      console.log("authenticationResponse", authenticationResponse.data.data);
+      console.log("authenticationResponse", authenticationResponse.data);
 
       if (authenticationResponse.data.data) {
         //Salvar o token no Async Storage
@@ -69,6 +69,7 @@ const LoginScreen = ({ navigation }: loginScreenProps) => {
 
         //Fazer o login no contexto
         authContext.login();
+        navigation.navigate("Início");
       } else {
         Alert.alert(
           "Erro!",
@@ -117,7 +118,6 @@ const LoginScreen = ({ navigation }: loginScreenProps) => {
               color={Colors.primary.dark}
               style={[styles.icon]}
             />
-
             <TextInput
               placeholder="Usuário"
               placeholderTextColor={Colors.primary.light}

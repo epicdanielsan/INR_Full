@@ -1,6 +1,7 @@
 import HomeScreen from "../../screens/Home";
 import InstitucionalScreen from "../../screens/Institucional";
 import LegislationScreen from "../../screens/Legislation";
+import LoginScreen from "../../screens/Login";
 import NewsScreen from "../../screens/News";
 import SPClassificator from "../../screens/SP";
 
@@ -17,9 +18,18 @@ interface DrawerMenuItem {
   iconName: string;
   component?: () => React.JSX.Element;
   menuList?: MenuItem[];
+  action?: string;
 }
 
 export const drawerMenu: DrawerMenuItem[] = [
+  {
+    title: "Entrar",
+    route: "LogIn",
+    component: LoginScreen,
+    icon: "FontAwesome",
+    iconName: "sign-in",
+    action: "Entrar",
+  },
   {
     title: "Início",
     route: "Início",
@@ -114,5 +124,13 @@ export const drawerMenu: DrawerMenuItem[] = [
     component: InstitucionalScreen,
     icon: "Ionicons",
     iconName: "settings",
+  },
+  {
+    title: "Sair",
+    route: "Início",
+    component: undefined,
+    icon: "MaterialIcons",
+    iconName: "logout",
+    action: "Sair",
   },
 ];

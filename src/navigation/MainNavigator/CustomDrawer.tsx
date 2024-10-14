@@ -1,3 +1,4 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { DrawerItemList } from "@react-navigation/drawer";
 import {
   DrawerDescriptorMap,
@@ -8,9 +9,10 @@ import {
   ParamListBase,
   useNavigation,
 } from "@react-navigation/native";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import {
   LayoutAnimation,
+  SafeAreaView,
   ScrollView,
   StyleSheet,
   Text,
@@ -19,11 +21,12 @@ import {
   View,
 } from "react-native";
 import Styles from "../../common/Styles";
-import { Container } from "../../components/Container";
 import CustomIcon from "../../components/Icons";
 import { Row } from "../../components/Row";
 import Colors from "../../constants/Colors";
 import { constant } from "../../constants/constants";
+import { AuthContext } from "../../contexts/AuthenticationContext";
+import { asyncUser } from "../../lib/types";
 import { drawerMenu } from "./DrawerMenu";
 
 type Props = {
@@ -34,13 +37,24 @@ type Props = {
 
 const CustomDrawer = (props: Props) => {
   const navigation = useNavigation();
+  const authContext = useContext(AuthContext);
   const [menuIndex, setMenuIndex] = useState<number>(-1);
 
+  const clearUserToken = async () => {
+    const jsonValue = await AsyncStorage.getItem("user");
+    const parsedValue: asyncUser =
+      jsonValue != null ? JSON.parse(jsonValue) : null;
+    parsedValue.userToken = "";
+
+    //Fazer logout no contexto
+    authContext.logout();
+    await AsyncStorage.setItem("user", JSON.stringify(parsedValue));
+  };
+
   return (
-    <Container style={{ top: "10%" }}>
+    <SafeAreaView style={{ flex: 1, marginTop: 50 }}>
       <ScrollView>
         <DrawerItemList {...props} />
-
         {drawerMenu.map((item, index) => {
           return (
             <TouchableOpacity
@@ -52,6 +66,12 @@ const CustomDrawer = (props: Props) => {
                   LayoutAnimation.Presets.easeInEaseOut
                 );
                 setMenuIndex(menuIndex === index ? -1 : index);
+                if (item.action && item.action === "Sair") {
+                  clearUserToken();
+                }
+                if (item.action && item.action === "Entrar") {
+                  if (authContext.isLoggedIn) return;
+                }
                 if (item.route) {
                   navigation.navigate(item.route as never);
                 }
@@ -118,7 +138,7 @@ const CustomDrawer = (props: Props) => {
           );
         })}
       </ScrollView>
-    </Container>
+    </SafeAreaView>
   );
 };
 

@@ -1,42 +1,40 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { Dimensions } from "react-native";
+import { Dimensions, Text, View } from "react-native";
 import { Container } from "../../components/Container";
 import Highlights from "../../components/Highlights";
-import highlightData from "../../components/Highlights/highlightData";
 
 const HighlightsScreen = () => {
-  const highlightDataLength = highlightData.length;
-  const [take, setTake] = useState<number>(5);
-  const [skip, setSkip] = useState<number>(0);
+  const [highlightsToShow, setHighlightsToShow] = useState<number>(5);
   const [highlights, setHighlights] = useState<any[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   //Buscar os destaques na API
   const initialSetup = async () => {
     try {
-      const highlightsResponse = await axios.post(`/api/highlights`, {
-        take,
-        skip,
-      });
+      setIsLoading(true);
+      const highlightsResponse = await axios.get(
+        "https://api.legacy.publicacoesinr.com.br/home"
+      );
       if (highlightsResponse.data) {
-        setHighlights(highlightsResponse.data);
+        setHighlights(() => highlightsResponse.data.data.links);
+        setIsLoading(false);
       }
     } catch (error: any) {
+      setIsLoading(false);
       console.log(error.message);
     }
   };
 
-  //Buscar mais destaques na API
+  // Função para carregar mais destaques
   const loadMoreHighlights = async () => {
-    const newSkip = skip + take;
-    const highlightsResponse = await axios.post(`/api/highlights`, {
-      take,
-      newSkip,
-    });
+    if (isLoading) return;
 
-    if (highlightsResponse.data) {
-      setHighlights((prev) => [...prev, highlightsResponse.data]);
-    }
+    setIsLoading(true);
+
+    setHighlightsToShow((prevHighlightsToShow) => prevHighlightsToShow + 5);
+
+    setIsLoading(false);
   };
 
   useEffect(() => {
@@ -45,12 +43,21 @@ const HighlightsScreen = () => {
 
   return (
     <Container>
-      <Highlights
-        numberOfHighlights={highlightDataLength}
-        minHeight={Dimensions.get("window").height}
-        onPress={loadMoreHighlights}
-        // data={highlightData}
-      />
+      {isLoading ? (
+        <View>
+          <Text>Carregando</Text>
+        </View>
+      ) : (
+        highlights &&
+        highlights.length > 0 && (
+          <Highlights
+            numberOfHighlights={highlightsToShow}
+            minHeight={Dimensions.get("window").height}
+            onPress={loadMoreHighlights}
+            data={highlights}
+          />
+        )
+      )}
     </Container>
   );
 };
