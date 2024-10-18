@@ -9,7 +9,6 @@ import {
   View,
 } from "react-native";
 import Colors from "../../constants/Colors";
-import carouselData from "./carouselData";
 import styles from "./styles";
 
 interface renderProps {
@@ -67,9 +66,16 @@ const CustomCarousel = (props: carouselProps) => {
     setActiveIndex(Math.round(index));
   };
 
+  // const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
+  //   const scrollPosition = event.nativeEvent.contentOffset.x;
+  //   const index = Math.round(scrollPosition / screenWidth);
+  //   const validRange = props.data.length - 1; // Account for 0-based indexing
+  //   setActiveIndex(Math.min(validRange, index)); // Clamp index to valid range
+  // };
+
   useEffect(() => {
     const intervalId = setInterval(() => {
-      const nextIndex = (activeIndex + 1) % carouselData.length;
+      const nextIndex = (activeIndex + 1) % props.data.length;
       flatListRef.current?.scrollToIndex({ index: nextIndex, animated: true });
     }, 4000);
 

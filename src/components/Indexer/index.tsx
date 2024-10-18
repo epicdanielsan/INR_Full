@@ -1,37 +1,53 @@
-import { useNavigation } from "@react-navigation/native";
-import { Text, TouchableOpacity, View } from "react-native";
+import { decode } from "html-entities";
+import {
+  Text,
+  TouchableOpacity,
+  useWindowDimensions,
+  View,
+} from "react-native";
+import RenderHTML from "react-native-render-html";
 import styles from "./style";
 
 export type indexerDataItem = {
   id: number;
-  type: string;
-  date: string;
-  title: string;
+  tipo: string;
+  datacad: string;
+  titulo: string;
   ementa?: string;
+  label: string;
 };
 
 export type indexerProps = {
   title: string;
   data: indexerDataItem[];
+  onPress: (item: indexerDataItem) => void;
 };
 
 const Indexer = (props: indexerProps) => {
-  const navigation = useNavigation();
+  const { width } = useWindowDimensions();
+
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>{props.title}</Text>
+    <View style={styles.itemView}>
+      <Text style={styles.screenTitle}>{props.title}</Text>
       {props.data &&
-        props.data.map((item, index) => (
-          <TouchableOpacity
-            key={index}
-            style={styles.itemContainer}
-            onPress={() => {
-              navigation.navigate("Multipurpose" as never);
-            }}
-          >
-            <Text style={styles.item}>
-              {item.date} - {item.title} {item.ementa ? `- ${item.ementa}` : ""}
-            </Text>
+        props.data.map((item: indexerDataItem, index) => (
+          <TouchableOpacity onPress={() => props.onPress(item)} key={index}>
+            <View style={styles.titleContainer}>
+              <Text
+                numberOfLines={5}
+                ellipsizeMode={"tail"}
+                style={styles.itemDate}
+              >
+                {item.datacad} - {item.ementa ? `- ${item.ementa}` : ""}
+              </Text>
+              <RenderHTML
+                contentWidth={width}
+                source={{
+                  html: decode(item.titulo),
+                }}
+                baseStyle={styles.itemText}
+              />
+            </View>
           </TouchableOpacity>
         ))}
     </View>

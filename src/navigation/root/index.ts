@@ -5,4 +5,7 @@ export type RootListType = {
   Início: undefined;
   LogIn: undefined;
   RetrievePassword: undefined;
+  News: undefined;
+  Indexer: undefined;
+  Multipurpose: { item: { id: number; tipo: string; label: string } };
 };

@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { Dimensions, Text, View } from "react-native";
+import { Dimensions, Image, StyleSheet, View } from "react-native";
 import { Container } from "../../components/Container";
 import Highlights from "../../components/Highlights";
 
@@ -20,6 +20,7 @@ const HighlightsScreen = () => {
         setHighlights(() => highlightsResponse.data.data.links);
         setIsLoading(false);
       }
+      setIsLoading(false);
     } catch (error: any) {
       setIsLoading(false);
       console.log(error.message);
@@ -44,8 +45,11 @@ const HighlightsScreen = () => {
   return (
     <Container>
       {isLoading ? (
-        <View>
-          <Text>Carregando</Text>
+        <View style={styles.gifContainer}>
+          <Image
+            source={require("../../../assets/images/Loading.gif")}
+            style={styles.gif}
+          />
         </View>
       ) : (
         highlights &&
@@ -63,3 +67,16 @@ const HighlightsScreen = () => {
 };
 
 export default HighlightsScreen;
+
+const styles = StyleSheet.create({
+  gif: {
+    top: -50,
+    width: 200,
+    height: 200,
+  },
+  gifContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+});

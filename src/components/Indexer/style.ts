@@ -1,26 +1,35 @@
+// import { StyleSheet } from "react-native";
 import { StyleSheet } from "react-native";
 import Colors from "../../constants/Colors";
 
 const styles = StyleSheet.create({
-  container: {
-    marginHorizontal: 5,
-  },
-  title: {
-    color: Colors.primary.dark,
+  screenTitle: {
     fontSize: 25,
     fontWeight: "500",
-    marginLeft: 25,
+    color: Colors.primary.dark,
+    marginLeft: 20,
+  },
+  itemView: {
     marginVertical: 10,
+    flex: 1,
+    marginHorizontal: 5,
   },
-  itemContainer: {
-    justifyContent: "center",
-    alignItems: "flex-start",
-    marginLeft: 10,
-  },
-  item: {
+  itemDate: {
+    fontSize: 17,
     color: Colors.primary.light,
     fontWeight: "500",
-    marginVertical: 10,
+    flex: 0.3,
+  },
+  itemText: {
+    fontSize: 17,
+    color: Colors.primary.light,
+    fontWeight: "500",
+    flex: 0.7,
+  },
+  titleContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    flex: 1,
   },
 });
 

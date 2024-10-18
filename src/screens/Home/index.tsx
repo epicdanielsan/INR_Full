@@ -43,8 +43,9 @@ const HomeScreen = () => {
       const apiFetch = await axios.get(BASE_API_HOME);
       if (apiFetch.data.success) {
         const response = apiFetch.data.data;
+
         if (response.banners.length > 0) {
-          setBanners(response.banners);
+          setBanners(() => response.banners);
         }
         if (response.links.length > 0) {
           setDestaques(response.links);
@@ -61,7 +62,7 @@ const HomeScreen = () => {
 
   return (
     <Container backgroundColor={Colors.primary.background}>
-      <CustomCarousel data={banners} />
+      {banners.length > 0 && <CustomCarousel data={banners} />}
       <View style={styles.highlightContainer}>
         <Text style={styles.highlightTitle}>Destaques</Text>
         <TouchableOpacity
