@@ -1,6 +1,6 @@
 import { DrawerNavigationProp } from "@react-navigation/drawer";
 import { RouteProp } from "@react-navigation/native";
-import { useContext, useEffect, useRef, useState } from "react";
+import { useContext, useRef } from "react";
 import { ScrollView, Text, useWindowDimensions, View } from "react-native";
 import RenderHTML from "react-native-render-html";
 import { AuthContext } from "../../contexts/AuthenticationContext";
@@ -34,7 +34,6 @@ const MultipurposeClassScreen = ({
   const { classificador } = route.params;
   const { width } = useWindowDimensions();
   const authContext = useContext(AuthContext);
-  const [isLogged, setIsLogged] = useState<boolean>(false);
 
   navigation.setOptions({
     drawerLabel: `Classificador ${classificador.type}`,
@@ -53,13 +52,6 @@ const MultipurposeClassScreen = ({
   };
 
   const randomIndex = Math.floor(Math.random() * barColors.length);
-
-  useEffect(() => {
-    if (authContext.isLoggedIn) {
-      setIsLogged(true);
-    }
-    // authContext.login();
-  }, []);
 
   return (
     <Container>

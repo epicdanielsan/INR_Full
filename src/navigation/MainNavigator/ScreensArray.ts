@@ -3,10 +3,12 @@ import MultipurposeClassScreen from "../../components/Classificators/Multipurpos
 import HighlightsScreen from "../../screens/Highlights";
 import HomeScreen from "../../screens/Home";
 import InstitucionalScreen from "../../screens/Institucional";
+import JurisprudenceScreen from "../../screens/Jurispudence";
 import LegislationScreen from "../../screens/Legislation";
 import LoginScreen from "../../screens/Login";
 import MultipurposeScreen from "../../screens/Multipurpose";
 import NewsScreen from "../../screens/News";
+import OpinionScreen from "../../screens/Opinion";
 import SettingsScreen from "../../screens/Settings";
 import SPClassificator from "../../screens/SP";
 
@@ -17,7 +19,6 @@ interface ScreensArrayProps {
 }
 
 export const ScreensArray: ScreensArrayProps[] = [
-  
   {
     route: "Início",
     label: "Início",
@@ -43,6 +44,16 @@ export const ScreensArray: ScreensArrayProps[] = [
     route: "Notícias",
     label: "Notícias",
     component: NewsScreen,
+  },
+  {
+    route: "Jurisprudência",
+    label: "Jurisprudência",
+    component: JurisprudenceScreen,
+  },
+  {
+    route: "Opinião",
+    label: "Opinião",
+    component: OpinionScreen,
   },
   {
     route: "Legislação",

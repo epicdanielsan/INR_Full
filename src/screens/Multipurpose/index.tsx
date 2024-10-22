@@ -1,21 +1,16 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { DrawerNavigationProp } from "@react-navigation/drawer";
 import { RouteProp } from "@react-navigation/native";
 import axios from "axios";
-import { decode } from "html-entities";
-import { useEffect, useState } from "react";
-import {
-  Image,
-  Linking,
-  ScrollView,
-  StyleSheet,
-  TouchableOpacity,
-  useWindowDimensions,
-  View,
-} from "react-native";
-import RenderHtml from "react-native-render-html";
+import { useContext, useEffect, useState } from "react";
+import { Image, ScrollView, StyleSheet, View } from "react-native";
 import { Container } from "../../components/Container";
-import Colors from "../../constants/Colors";
+import { AuthContext } from "../../contexts/AuthenticationContext";
+import { asyncUser } from "../../lib/types";
 import { RootListType } from "../../navigation/root";
+import LegislationItem from "../Legislation/LegislationItem";
+import NewsItem from "../News/NewsItem";
+import OpinionItem from "../Opinion/OpinionItem";
 
 type MultipurposeClassScreenRouteProp = RouteProp<RootListType, "Multipurpose">;
 
@@ -33,15 +28,67 @@ const MultipurposeScreen = ({
   navigation,
   route,
 }: MultipurposeClassScreenProps) => {
-  const { width } = useWindowDimensions();
   const { item } = route.params;
 
   const [fetcheditem, setFetcheditem] = useState<any>({});
+  const [itemType, setItemType] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
+  const [userToken, setuserToken] = useState<string | undefined>(undefined);
+
+  const authContext = useContext(AuthContext);
 
   navigation.setOptions({
     headerTitle: item.label,
   });
+
+  useEffect(() => {
+    const initialFetch = async () => {
+      const jsonValue = await AsyncStorage.getItem("user");
+      const parsedValue: asyncUser =
+        jsonValue != null ? JSON.parse(jsonValue) : null;
+      if (parsedValue.userToken) {
+        setuserToken(() => parsedValue.userToken);
+      }
+    };
+    initialFetch();
+  }, []);
+
+  const commonGet = async (tipo: string, id: number) => {
+    const response = await axios.get(
+      `https://api.legacy.publicacoesinr.com.br/${tipo}/${id}`
+    );
+
+    if (response.data) {
+      return response.data.data;
+    }
+  };
+  const loggedGet = async (tipo: string, id: number, token: string) => {
+    const response = await axios.get(
+      `https://api.legacy.publicacoesinr.com.br/${tipo}/${id}`,
+      {
+        headers: {
+          Authorization: token,
+        },
+      }
+    );
+
+    if (response.data) {
+      return response.data.data;
+    }
+  };
+
+  const fetchItemUrlByType = async () => {
+    switch (item.tipo) {
+      case "news":
+        return commonGet("news", item.id);
+      case "opinion":
+        return loggedGet("opinion", item.id, userToken || "");
+      case "legislation":
+        return loggedGet("legislation", item.id, userToken || "");
+      default:
+        break;
+    }
+  };
 
   useEffect(() => {
     const getItem = async () => {
@@ -49,12 +96,21 @@ const MultipurposeScreen = ({
         setLoading(true);
         setFetcheditem({});
 
-        const itemResponse = await axios.get(
-          `https://api.legacy.publicacoesinr.com.br/${item.tipo}/${item.id}`
-        );
-        if (itemResponse.data.success) {
-          setFetcheditem(() => itemResponse.data.data);
+        // const itemResponse = await axios.get(
+        //   `https://api.legacy.publicacoesinr.com.br/${item.tipo}/${item.id}`
+        // );
+        const itemResponse = await fetchItemUrlByType();
+        if (itemResponse) {
+          setFetcheditem(() => itemResponse);
         }
+        console.log(itemResponse.titulo);
+
+        // if (itemResponse?.data?.success) {
+        //   setFetcheditem(() => itemResponse.data.data);
+        //   console.log(itemResponse.data.data);
+
+        //   setItemType(() => itemResponse.data.data.tipo);
+        // }
         setLoading(false);
       } catch (error: any) {
         console.warn(error.message);
@@ -65,6 +121,19 @@ const MultipurposeScreen = ({
       getItem();
     }
   }, [route.params?.item?.id]);
+
+  const renderSwitch = () => {
+    switch (item.tipo) {
+      case "news":
+        return <NewsItem item={fetcheditem} />;
+      case "opinion":
+        return <OpinionItem item={fetcheditem} />;
+      case "legislation":
+        return <LegislationItem item={fetcheditem} />;
+      default:
+        break;
+    }
+  };
 
   return (
     <Container>
@@ -77,7 +146,8 @@ const MultipurposeScreen = ({
         </View>
       ) : (
         <ScrollView style={styles.container}>
-          <RenderHtml
+          {renderSwitch()}
+          {/* <RenderHtml
             contentWidth={width}
             source={{ html: decode(fetcheditem.titulo) }}
             baseStyle={styles.title}
@@ -106,7 +176,7 @@ const MultipurposeScreen = ({
                 baseStyle={styles.font}
               />
             </TouchableOpacity>
-          )}
+          )} */}
         </ScrollView>
       )}
     </Container>
@@ -116,21 +186,8 @@ const MultipurposeScreen = ({
 export default MultipurposeScreen;
 
 const styles = StyleSheet.create({
-  title: {
-    marginLeft: 15,
-    marginVertical: 5,
-    color: Colors.primary.title,
-    fontSize: 17,
-  },
   container: {
     marginHorizontal: 10,
-  },
-  text: {
-    fontSize: 15,
-  },
-  font: {
-    marginBottom: 30,
-    color: Colors.primary.light,
   },
   gifContainer: {
     flex: 1,

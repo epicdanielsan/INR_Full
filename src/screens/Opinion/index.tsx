@@ -1,6 +1,5 @@
 import { useFocusEffect } from "@react-navigation/native";
 import axios from "axios";
-import { decode } from "html-entities";
 import React, { useEffect, useState } from "react";
 import {
   Image,
@@ -16,17 +15,27 @@ import Indexer from "../../components/Indexer";
 import Colors from "../../constants/Colors";
 import { RootListType } from "../../navigation/root";
 
-type legislationScreenNavigationProp = NativeStackNavigationProp<
+type opinionType = {
+  data_registro: string;
+  datacad: string;
+  id: number;
+  label: string;
+  resumo: string | null;
+  tipo: string;
+  titulo: string;
+};
+
+type opinionScreenNavigationProp = NativeStackNavigationProp<
   RootListType,
-  "Legislation"
+  "Opinion"
 >;
 
-interface legislationScreenProps {
-  navigation: legislationScreenNavigationProp;
+interface opinionScreenProps {
+  navigation: opinionScreenNavigationProp;
 }
 
-const LegislationScreen = ({ navigation }: legislationScreenProps) => {
-  const [legislations, setLegislations] = useState<any[]>([]);
+const OpinionScreen = ({ navigation }: opinionScreenProps) => {
+  const [opinions, setOpinions] = useState<any[]>([]);
   const [limit, setLimit] = useState<number>(5);
   const [page, setPage] = useState<number>(0);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -36,11 +45,16 @@ const LegislationScreen = ({ navigation }: legislationScreenProps) => {
       const fetchData = async () => {
         try {
           setIsLoading(true);
-          const legislationResponse = await axios.get(
-            `https://api.legacy.publicacoesinr.com.br/legislation?limit=${limit}&page=${0}`
+          const opinionResponse = await axios.get(
+            `https://api.legacy.publicacoesinr.com.br/opinion?limit=${limit}&page=${0}`
           );
-          if (legislationResponse.data.success) {
-            setLegislations(() => legislationResponse.data.data);
+          if (opinionResponse.data.success) {
+            const parsedOpinions = opinionResponse.data.data.map(
+              (item: opinionType) => {
+                return { ...item, datacad: item.data_registro };
+              }
+            );
+            setOpinions(() => parsedOpinions);
             setPage(() => 0);
             setIsLoading(false);
           }
@@ -59,27 +73,17 @@ const LegislationScreen = ({ navigation }: legislationScreenProps) => {
     const initialSetup = async () => {
       try {
         setIsLoading(true);
-        const legislationResponse = await axios.get(
-          `https://api.legacy.publicacoesinr.com.br/legislation?limit=${limit}&page=${page}`
+        const opinionResponse = await axios.get(
+          `https://api.legacy.publicacoesinr.com.br/opinion?limit=${limit}&page=${page}`
         );
 
-        if (legislationResponse.data.success) {
-          const parsedLegislation = legislationResponse.data.data.map(
-            (item: any) => {
-              const titulo = decode(item.titulo);
-              console.log(titulo);
-
-              const ementa = decode(item.resumo);
-              console.log(ementa);
-              const fullTitle = `${titulo}-${ementa}`;
-              return {
-                ...item,
-                // titulo: decode(`${item.titulo}-${item.resumo}`),
-                titulo: fullTitle,
-              };
+        if (opinionResponse.data.success) {
+          const parsedOpinions = opinionResponse.data.data.map(
+            (item: opinionType) => {
+              return { ...item, datacad: item.data_registro };
             }
           );
-          setLegislations(() => parsedLegislation);
+          setOpinions(() => parsedOpinions);
           setIsLoading(false);
         }
         setIsLoading(false);
@@ -91,15 +95,20 @@ const LegislationScreen = ({ navigation }: legislationScreenProps) => {
     initialSetup();
   }, []);
 
-  const loadMorelegislations = async () => {
+  const loadMoreOpinions = async () => {
     try {
       const newPage = page + 1;
-      setPage(() => newPage);
-      const legislationResponse = await axios.get(
-        `https://api.legacy.publicacoesinr.com.br/legislation?limit=${limit}&page=${newPage}`
+      setPage((prev) => prev + 1);
+      const opinionResponse = await axios.get(
+        `https://api.legacy.publicacoesinr.com.br/opinion?limit=${limit}&page=${newPage}`
       );
-      if (legislationResponse.data.success) {
-        setLegislations((prev) => [...prev, ...legislationResponse.data.data]);
+      if (opinionResponse.data.success) {
+        const parsedOpinions = opinionResponse.data.data.map(
+          (item: opinionType) => {
+            return { ...item, datacad: item.data_registro };
+          }
+        );
+        setOpinions((prev) => [...prev, ...parsedOpinions]);
       }
     } catch (error: any) {
       console.log(error.message);
@@ -118,8 +127,8 @@ const LegislationScreen = ({ navigation }: legislationScreenProps) => {
       ) : (
         <ScrollView style={{ flex: 1 }}>
           <Indexer
-            data={legislations}
-            title="Últimos Atos Legais"
+            data={opinions}
+            title="Últimos Artigos"
             onPress={(item1: any) => {
               navigation.navigate("Multipurpose", {
                 item: { id: item1.id, label: item1.label, tipo: item1.tipo },
@@ -128,7 +137,7 @@ const LegislationScreen = ({ navigation }: legislationScreenProps) => {
           />
           <TouchableOpacity
             style={styles.buttonContainer}
-            onPress={loadMorelegislations}
+            onPress={loadMoreOpinions}
           >
             <Text style={styles.buttonText}>Clique Aqui para ver mais</Text>
           </TouchableOpacity>
@@ -138,7 +147,7 @@ const LegislationScreen = ({ navigation }: legislationScreenProps) => {
   );
 };
 
-export default LegislationScreen;
+export default OpinionScreen;
 
 const styles = StyleSheet.create({
   buttonContainer: {

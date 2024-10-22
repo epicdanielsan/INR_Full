@@ -1,8 +1,10 @@
 import HomeScreen from "../../screens/Home";
 import InstitucionalScreen from "../../screens/Institucional";
+import JurisprudenceScreen from "../../screens/Jurispudence";
 import LegislationScreen from "../../screens/Legislation";
 import LoginScreen from "../../screens/Login";
 import NewsScreen from "../../screens/News";
+import OpinionScreen from "../../screens/Opinion";
 import SPClassificator from "../../screens/SP";
 
 interface MenuItem {
@@ -56,8 +58,12 @@ export const drawerMenu: DrawerMenuItem[] = [
         component: LegislationScreen,
         route: "Legislação",
       },
-      { title: "Jurisprudência", component: null },
-      { title: "Opinião", component: null },
+      {
+        title: "Jurisprudência",
+        component: JurisprudenceScreen,
+        route: "Jurisprudência",
+      },
+      { title: "Opinião", component: OpinionScreen, route: "Opinião" },
       { title: "Perguntas e Respostas", component: null },
       { title: "Mensagens dos Editores", component: null },
       { title: "Pareceres CGJ SP", component: null },

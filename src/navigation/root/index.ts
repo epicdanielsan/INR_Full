@@ -6,6 +6,9 @@ export type RootListType = {
   LogIn: undefined;
   RetrievePassword: undefined;
   News: undefined;
+  Opinion: undefined;
+  Legislation: undefined;
+  Jurisprudence: undefined;
   Indexer: undefined;
   Multipurpose: { item: { id: number; tipo: string; label: string } };
 };

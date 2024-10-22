@@ -8,14 +8,17 @@ import Indexer from "../../components/Indexer";
 import Colors from "../../constants/Colors";
 import { RootListType } from "../../navigation/root";
 
-type newsScreenNavigationProp = NativeStackNavigationProp<RootListType, "News">;
+type jurisprudenceScreenNavigationProp = NativeStackNavigationProp<
+  RootListType,
+  "Jurisprudence"
+>;
 
-interface newsScreenProps {
-  navigation: newsScreenNavigationProp;
+interface jurisprudenceScreenProps {
+  navigation: jurisprudenceScreenNavigationProp;
 }
 
-const NewsScreen = ({ navigation }: newsScreenProps) => {
-  const [news, setNews] = useState<any[]>([]);
+const JurisprudenceScreen = ({ navigation }: jurisprudenceScreenProps) => {
+  const [jurisprudence, setJurisprudence] = useState<any[]>([]);
   const [limit, setLimit] = useState<number>(5);
   const [page, setPage] = useState<number>(0);
 
@@ -24,11 +27,10 @@ const NewsScreen = ({ navigation }: newsScreenProps) => {
       const fetchData = async () => {
         try {
           const newsResponse = await axios.get(
-            `https://api.legacy.publicacoesinr.com.br/news?limit=${limit}&page=${0}`
+            `https://api.legacy.publicacoesinr.com.br/jurisprudence?limit=${limit}&page=${page}`
           );
           if (newsResponse.data.success) {
-            setNews(newsResponse.data.data);
-            setPage(() => 0);
+            setJurisprudence(newsResponse.data.data);
           }
         } catch (error: any) {
           console.log(error.message);
@@ -36,17 +38,17 @@ const NewsScreen = ({ navigation }: newsScreenProps) => {
       };
 
       fetchData();
-    }, [limit])
+    }, [limit, page])
   );
 
   useEffect(() => {
     const initialSetup = async () => {
       try {
         const newsResponse = await axios.get(
-          `https://api.legacy.publicacoesinr.com.br/news?limit=${limit}&page=${page}`
+          `https://api.legacy.publicacoesinr.com.br/jurisprudence?limit=${limit}&page=${page}`
         );
         if (newsResponse.data.success) {
-          setNews(() => newsResponse.data.data);
+          setJurisprudence(() => newsResponse.data.data);
         }
       } catch (error: any) {
         console.log(error.message);
@@ -55,15 +57,14 @@ const NewsScreen = ({ navigation }: newsScreenProps) => {
     initialSetup();
   }, []);
 
-  const loadMoreNews = async () => {
+  const loadMoreJurisprudence = async () => {
     try {
-      const newPage = page + 1;
-      setPage((prev) => prev + 1);
+      const newLimit = limit + 5;
       const newsResponse = await axios.get(
-        `https://api.legacy.publicacoesinr.com.br/news?limit=${limit}&page=${newPage}`
+        `https://api.legacy.publicacoesinr.com.br/jurisprudence?limit=${newLimit}&page=${page}`
       );
       if (newsResponse.data.success) {
-        setNews((prev) => [...prev, ...newsResponse.data.data]);
+        setJurisprudence((prev) => [...prev, ...newsResponse.data.data]);
       }
     } catch (error: any) {
       console.log(error.message);
@@ -74,15 +75,24 @@ const NewsScreen = ({ navigation }: newsScreenProps) => {
     <Container>
       <ScrollView style={{ flex: 1 }}>
         <Indexer
-          data={news}
-          title="Últimas Notícias"
+          data={jurisprudence}
+          title="Últimas Decisões"
           onPress={(item1: any) => {
+            console.log(item1);
+
             navigation.navigate("Multipurpose", {
-              item: { id: item1.id, label: item1.label, tipo: item1.tipo },
+              item: {
+                id: item1.idjurisprudencia,
+                label: "Jurisprudência",
+                tipo: "jurisprudence",
+              },
             });
           }}
         />
-        <TouchableOpacity style={styles.buttonContainer} onPress={loadMoreNews}>
+        <TouchableOpacity
+          style={styles.buttonContainer}
+          onPress={loadMoreJurisprudence}
+        >
           <Text style={styles.buttonText}>Clique Aqui para ver mais</Text>
         </TouchableOpacity>
       </ScrollView>
@@ -90,7 +100,7 @@ const NewsScreen = ({ navigation }: newsScreenProps) => {
   );
 };
 
-export default NewsScreen;
+export default JurisprudenceScreen;
 
 const styles = StyleSheet.create({
   buttonContainer: {
