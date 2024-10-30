@@ -1,10 +1,13 @@
+import EditorsMessagesScreen from "../../screens/EditorsMessage";
 import HomeScreen from "../../screens/Home";
 import InstitucionalScreen from "../../screens/Institucional";
 import JurisprudenceScreen from "../../screens/Jurispudence";
+import LegalViewScreen from "../../screens/LegalView";
 import LegislationScreen from "../../screens/Legislation";
 import LoginScreen from "../../screens/Login";
 import NewsScreen from "../../screens/News";
 import OpinionScreen from "../../screens/Opinion";
+import QuestionsAndAnswersScreen from "../../screens/QuestionsAndAnswers";
 import SPClassificator from "../../screens/SP";
 
 interface MenuItem {
@@ -63,10 +66,23 @@ export const drawerMenu: DrawerMenuItem[] = [
         component: JurisprudenceScreen,
         route: "Jurisprudência",
       },
+      {
+        title: "Mensagens dos Editores",
+        component: EditorsMessagesScreen,
+        route: "Mensagens dos Editores",
+      },
       { title: "Opinião", component: OpinionScreen, route: "Opinião" },
-      { title: "Perguntas e Respostas", component: null },
-      { title: "Mensagens dos Editores", component: null },
-      { title: "Pareceres CGJ SP", component: null },
+      {
+        title: "Pareceres CGJ SP",
+        component: LegalViewScreen,
+        route: "Pareceres",
+      },
+      {
+        title: "Perguntas e Respostas",
+        component: QuestionsAndAnswersScreen,
+        route: "Perguntas e Respostas",
+      },
+
       { title: "Suplementos da Consultoria INR", component: null },
     ],
   },

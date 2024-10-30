@@ -8,17 +8,17 @@ import Indexer from "../../components/Indexer";
 import Colors from "../../constants/Colors";
 import { RootListType } from "../../navigation/root";
 
-type jurisprudenceScreenNavigationProp = NativeStackNavigationProp<
+type legalViewScreenNavigationProp = NativeStackNavigationProp<
   RootListType,
-  "Jurisprudence"
+  "LegalView"
 >;
 
-interface jurisprudenceScreenProps {
-  navigation: jurisprudenceScreenNavigationProp;
+interface legalViewScreenProps {
+  navigation: legalViewScreenNavigationProp;
 }
 
-const JurisprudenceScreen = ({ navigation }: jurisprudenceScreenProps) => {
-  const [jurisprudence, setJurisprudence] = useState<any[]>([]);
+const LegalViewScreen = ({ navigation }: legalViewScreenProps) => {
+  const [legalView, setLegalView] = useState<any[]>([]);
   const [limit, setLimit] = useState<number>(5);
   const [page, setPage] = useState<number>(0);
 
@@ -26,11 +26,11 @@ const JurisprudenceScreen = ({ navigation }: jurisprudenceScreenProps) => {
     React.useCallback(() => {
       const fetchData = async () => {
         try {
-          const newsResponse = await axios.get(
-            `https://api.legacy.publicacoesinr.com.br/jurisprudence?limit=${limit}&page=${page}`
+          const legalViewResponse = await axios.get(
+            `https://api.legacy.publicacoesinr.com.br/pareceres?limit=${limit}&page=${page}`
           );
-          if (newsResponse.data.success) {
-            setJurisprudence(newsResponse.data.data);
+          if (legalViewResponse.data.success) {
+            setLegalView(legalViewResponse.data.data);
           }
         } catch (error: any) {
           console.log(error.message);
@@ -44,11 +44,11 @@ const JurisprudenceScreen = ({ navigation }: jurisprudenceScreenProps) => {
   useEffect(() => {
     const initialSetup = async () => {
       try {
-        const jurisprudenceResponse = await axios.get(
-          `https://api.legacy.publicacoesinr.com.br/jurisprudence?limit=${limit}&page=${page}`
+        const legalViewResponse = await axios.get(
+          `https://api.legacy.publicacoesinr.com.br/pareceres?limit=${limit}&page=${page}`
         );
-        if (jurisprudenceResponse.data.success) {
-          setJurisprudence(() => jurisprudenceResponse.data.data);
+        if (legalViewResponse.data.success) {
+          setLegalView(() => legalViewResponse.data.data);
         }
       } catch (error: any) {
         console.log(error.message);
@@ -57,14 +57,14 @@ const JurisprudenceScreen = ({ navigation }: jurisprudenceScreenProps) => {
     initialSetup();
   }, []);
 
-  const loadMoreJurisprudence = async () => {
+  const loadMoreLegalViews = async () => {
     try {
       const newLimit = limit + 5;
-      const newsResponse = await axios.get(
-        `https://api.legacy.publicacoesinr.com.br/jurisprudence?limit=${newLimit}&page=${page}`
+      const legalViewResponse = await axios.get(
+        `https://api.legacy.publicacoesinr.com.br/pareceres?limit=${newLimit}&page=${page}`
       );
-      if (newsResponse.data.success) {
-        setJurisprudence((prev) => [...prev, ...newsResponse.data.data]);
+      if (legalViewResponse.data.success) {
+        setLegalView((prev) => [...prev, ...legalViewResponse.data.data]);
       }
     } catch (error: any) {
       console.log(error.message);
@@ -75,23 +75,23 @@ const JurisprudenceScreen = ({ navigation }: jurisprudenceScreenProps) => {
     <Container>
       <ScrollView style={{ flex: 1 }}>
         <Indexer
-          data={jurisprudence}
-          title="Últimas Decisões"
+          data={legalView}
+          title="Últimos Pareceres CGJ SP"
           onPress={(item1: any) => {
             console.log(item1);
 
             navigation.navigate("Multipurpose", {
               item: {
                 id: item1.idjurisprudencia,
-                label: "Jurisprudência",
-                tipo: "jurisprudence",
+                label: "Pareceres",
+                tipo: "pareceres",
               },
             });
           }}
         />
         <TouchableOpacity
           style={styles.buttonContainer}
-          onPress={loadMoreJurisprudence}
+          onPress={loadMoreLegalViews}
         >
           <Text style={styles.buttonText}>Clique Aqui para ver mais</Text>
         </TouchableOpacity>
@@ -100,7 +100,7 @@ const JurisprudenceScreen = ({ navigation }: jurisprudenceScreenProps) => {
   );
 };
 
-export default JurisprudenceScreen;
+export default LegalViewScreen;
 
 const styles = StyleSheet.create({
   buttonContainer: {

@@ -8,6 +8,7 @@ import { Container } from "../../components/Container";
 import { AuthContext } from "../../contexts/AuthenticationContext";
 import { asyncUser } from "../../lib/types";
 import { RootListType } from "../../navigation/root";
+import JurisprudenceItem from "../Jurispudence/JurisprudenceItem";
 import LegislationItem from "../Legislation/LegislationItem";
 import NewsItem from "../News/NewsItem";
 import OpinionItem from "../Opinion/OpinionItem";
@@ -85,6 +86,8 @@ const MultipurposeScreen = ({
         return loggedGet("opinion", item.id, userToken || "");
       case "legislation":
         return loggedGet("legislation", item.id, userToken || "");
+      case "jurisprudence":
+        return loggedGet("jurisprudence", item.id, userToken || "");
       default:
         break;
     }
@@ -96,21 +99,12 @@ const MultipurposeScreen = ({
         setLoading(true);
         setFetcheditem({});
 
-        // const itemResponse = await axios.get(
-        //   `https://api.legacy.publicacoesinr.com.br/${item.tipo}/${item.id}`
-        // );
         const itemResponse = await fetchItemUrlByType();
         if (itemResponse) {
           setFetcheditem(() => itemResponse);
         }
         console.log(itemResponse.titulo);
 
-        // if (itemResponse?.data?.success) {
-        //   setFetcheditem(() => itemResponse.data.data);
-        //   console.log(itemResponse.data.data);
-
-        //   setItemType(() => itemResponse.data.data.tipo);
-        // }
         setLoading(false);
       } catch (error: any) {
         console.warn(error.message);
@@ -130,6 +124,8 @@ const MultipurposeScreen = ({
         return <OpinionItem item={fetcheditem} />;
       case "legislation":
         return <LegislationItem item={fetcheditem} />;
+      case "jurisprudence":
+        return <JurisprudenceItem item={fetcheditem} />;
       default:
         break;
     }
@@ -145,39 +141,7 @@ const MultipurposeScreen = ({
           />
         </View>
       ) : (
-        <ScrollView style={styles.container}>
-          {renderSwitch()}
-          {/* <RenderHtml
-            contentWidth={width}
-            source={{ html: decode(fetcheditem.titulo) }}
-            baseStyle={styles.title}
-          />
-
-          <RenderHtml
-            contentWidth={width}
-            source={{ html: decode(fetcheditem.datacad) }}
-            baseStyle={styles.title}
-          />
-
-          <RenderHtml
-            contentWidth={width}
-            source={{ html: decode(fetcheditem.texto) }}
-            baseStyle={styles.text}
-          />
-          {fetcheditem.fonte && (
-            <TouchableOpacity
-              onPress={() => {
-                Linking.openURL(fetcheditem.fonte);
-              }}
-            >
-              <RenderHtml
-                contentWidth={width}
-                source={{ html: decode(fetcheditem.fonte) }}
-                baseStyle={styles.font}
-              />
-            </TouchableOpacity>
-          )} */}
-        </ScrollView>
+        <ScrollView style={styles.container}>{renderSwitch()}</ScrollView>
       )}
     </Container>
   );

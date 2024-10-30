@@ -1,14 +1,17 @@
 import IndexClassScreen from "../../components/Classificators/IndexClassScreen";
 import MultipurposeClassScreen from "../../components/Classificators/MultipurposeClassScreen";
+import EditorsMessagesScreen from "../../screens/EditorsMessage";
 import HighlightsScreen from "../../screens/Highlights";
 import HomeScreen from "../../screens/Home";
 import InstitucionalScreen from "../../screens/Institucional";
 import JurisprudenceScreen from "../../screens/Jurispudence";
+import LegalViewScreen from "../../screens/LegalView";
 import LegislationScreen from "../../screens/Legislation";
 import LoginScreen from "../../screens/Login";
 import MultipurposeScreen from "../../screens/Multipurpose";
 import NewsScreen from "../../screens/News";
 import OpinionScreen from "../../screens/Opinion";
+import QuestionsAndAnswersScreen from "../../screens/QuestionsAndAnswers";
 import SettingsScreen from "../../screens/Settings";
 import SPClassificator from "../../screens/SP";
 
@@ -59,6 +62,21 @@ export const ScreensArray: ScreensArrayProps[] = [
     route: "Legislação",
     label: "Legislação",
     component: LegislationScreen,
+  },
+  {
+    route: "Mensagens dos Editores",
+    label: "Mensagens dos Editores",
+    component: EditorsMessagesScreen,
+  },
+  {
+    route: "Pareceres",
+    label: "Pareceres",
+    component: LegalViewScreen,
+  },
+  {
+    route: "Perguntas e Respostas",
+    label: "Perguntas e Respostas",
+    component: QuestionsAndAnswersScreen,
   },
   {
     route: "Multipurpose",

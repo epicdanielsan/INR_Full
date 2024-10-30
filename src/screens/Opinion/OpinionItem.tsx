@@ -1,6 +1,6 @@
 import { useNavigation } from "@react-navigation/native";
 import { decode } from "html-entities";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import {
   StyleSheet,
   Text,
@@ -20,6 +20,10 @@ const OpinionItem = (props: opinionItemProps) => {
   const { width } = useWindowDimensions();
   const authContext = useContext(AuthContext);
   const navigation = useNavigation();
+
+  useEffect(() => {
+    console.log(props.item);
+  }, []);
 
   return (
     <View>

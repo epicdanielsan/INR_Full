@@ -5,10 +5,13 @@ export type RootListType = {
   Início: undefined;
   LogIn: undefined;
   RetrievePassword: undefined;
+  EditorsMessages: undefined;
+  Indexer: undefined;
+  Jurisprudence: undefined;
+  LegalView: undefined;
+  Legislation: undefined;
+  Multipurpose: { item: { id: number; tipo: string; label: string } };
   News: undefined;
   Opinion: undefined;
-  Legislation: undefined;
-  Jurisprudence: undefined;
-  Indexer: undefined;
-  Multipurpose: { item: { id: number; tipo: string; label: string } };
+  QuestionsAndAnswers: undefined;
 };

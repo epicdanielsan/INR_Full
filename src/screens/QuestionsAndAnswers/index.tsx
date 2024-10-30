@@ -8,17 +8,19 @@ import Indexer from "../../components/Indexer";
 import Colors from "../../constants/Colors";
 import { RootListType } from "../../navigation/root";
 
-type jurisprudenceScreenNavigationProp = NativeStackNavigationProp<
+type questionsAndAnswersScreenNavigationProp = NativeStackNavigationProp<
   RootListType,
-  "Jurisprudence"
+  "QuestionsAndAnswers"
 >;
 
-interface jurisprudenceScreenProps {
-  navigation: jurisprudenceScreenNavigationProp;
+interface questionsAndAnswersScreenProps {
+  navigation: questionsAndAnswersScreenNavigationProp;
 }
 
-const JurisprudenceScreen = ({ navigation }: jurisprudenceScreenProps) => {
-  const [jurisprudence, setJurisprudence] = useState<any[]>([]);
+const QuestionsAndAnswersScreen = ({
+  navigation,
+}: questionsAndAnswersScreenProps) => {
+  const [questionsAndAnswers, setQuestionsAndAnswers] = useState<any[]>([]);
   const [limit, setLimit] = useState<number>(5);
   const [page, setPage] = useState<number>(0);
 
@@ -26,11 +28,11 @@ const JurisprudenceScreen = ({ navigation }: jurisprudenceScreenProps) => {
     React.useCallback(() => {
       const fetchData = async () => {
         try {
-          const newsResponse = await axios.get(
-            `https://api.legacy.publicacoesinr.com.br/jurisprudence?limit=${limit}&page=${page}`
+          const questionsAndAnswersResponse = await axios.get(
+            `https://api.legacy.publicacoesinr.com.br/questions-answers?limit=${limit}&page=${page}`
           );
-          if (newsResponse.data.success) {
-            setJurisprudence(newsResponse.data.data);
+          if (questionsAndAnswersResponse.data.success) {
+            setQuestionsAndAnswers(questionsAndAnswersResponse.data.data);
           }
         } catch (error: any) {
           console.log(error.message);
@@ -44,11 +46,11 @@ const JurisprudenceScreen = ({ navigation }: jurisprudenceScreenProps) => {
   useEffect(() => {
     const initialSetup = async () => {
       try {
-        const jurisprudenceResponse = await axios.get(
-          `https://api.legacy.publicacoesinr.com.br/jurisprudence?limit=${limit}&page=${page}`
+        const questionsAndAnswersResponse = await axios.get(
+          `https://api.legacy.publicacoesinr.com.br/pareceres?limit=${limit}&page=${page}`
         );
-        if (jurisprudenceResponse.data.success) {
-          setJurisprudence(() => jurisprudenceResponse.data.data);
+        if (questionsAndAnswersResponse.data.success) {
+          setQuestionsAndAnswers(() => questionsAndAnswersResponse.data.data);
         }
       } catch (error: any) {
         console.log(error.message);
@@ -57,14 +59,17 @@ const JurisprudenceScreen = ({ navigation }: jurisprudenceScreenProps) => {
     initialSetup();
   }, []);
 
-  const loadMoreJurisprudence = async () => {
+  const loadMoreQuestionsAndAnswers = async () => {
     try {
       const newLimit = limit + 5;
-      const newsResponse = await axios.get(
-        `https://api.legacy.publicacoesinr.com.br/jurisprudence?limit=${newLimit}&page=${page}`
+      const questionsAndAnswersResponse = await axios.get(
+        `https://api.legacy.publicacoesinr.com.br/questions-answers?limit=${newLimit}&page=${page}`
       );
-      if (newsResponse.data.success) {
-        setJurisprudence((prev) => [...prev, ...newsResponse.data.data]);
+      if (questionsAndAnswersResponse.data.success) {
+        setQuestionsAndAnswers((prev) => [
+          ...prev,
+          ...questionsAndAnswersResponse.data.data,
+        ]);
       }
     } catch (error: any) {
       console.log(error.message);
@@ -75,23 +80,23 @@ const JurisprudenceScreen = ({ navigation }: jurisprudenceScreenProps) => {
     <Container>
       <ScrollView style={{ flex: 1 }}>
         <Indexer
-          data={jurisprudence}
-          title="Últimas Decisões"
+          data={questionsAndAnswers}
+          title="Últimas Consultas"
           onPress={(item1: any) => {
             console.log(item1);
 
             navigation.navigate("Multipurpose", {
               item: {
                 id: item1.idjurisprudencia,
-                label: "Jurisprudência",
-                tipo: "jurisprudence",
+                label: "Perguntas e Respostas",
+                tipo: "questions-answers",
               },
             });
           }}
         />
         <TouchableOpacity
           style={styles.buttonContainer}
-          onPress={loadMoreJurisprudence}
+          onPress={loadMoreQuestionsAndAnswers}
         >
           <Text style={styles.buttonText}>Clique Aqui para ver mais</Text>
         </TouchableOpacity>
@@ -100,7 +105,7 @@ const JurisprudenceScreen = ({ navigation }: jurisprudenceScreenProps) => {
   );
 };
 
-export default JurisprudenceScreen;
+export default QuestionsAndAnswersScreen;
 
 const styles = StyleSheet.create({
   buttonContainer: {

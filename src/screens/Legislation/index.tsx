@@ -40,7 +40,20 @@ const LegislationScreen = ({ navigation }: legislationScreenProps) => {
             `https://api.legacy.publicacoesinr.com.br/legislation?limit=${limit}&page=${0}`
           );
           if (legislationResponse.data.success) {
-            setLegislations(() => legislationResponse.data.data);
+            const maped = legislationResponse.data.data.map((item: any) => {
+              let titulo = item.titulo;
+
+              // let parsedTitulo = titulo.match(/<p>(.*?)<\/p>/)[1];
+
+              let resumo = item.resumo;
+              // let parsedResumo = resumo.match(/<p>(.*?)<\/p>/)[1];
+              // let finalTitle = `<p>${parsedTitulo} - ${parsedResumo}</p>`;
+
+              // item = { ...item, titulo: finalTitle };
+              return item;
+            });
+            setLegislations(() => maped);
+            setIsLoading(false);
             setPage(() => 0);
             setIsLoading(false);
           }
@@ -57,6 +70,7 @@ const LegislationScreen = ({ navigation }: legislationScreenProps) => {
 
   useEffect(() => {
     const initialSetup = async () => {
+      let finalTitle: string = "";
       try {
         setIsLoading(true);
         const legislationResponse = await axios.get(
@@ -64,22 +78,34 @@ const LegislationScreen = ({ navigation }: legislationScreenProps) => {
         );
 
         if (legislationResponse.data.success) {
-          const parsedLegislation = legislationResponse.data.data.map(
-            (item: any) => {
-              const titulo = decode(item.titulo);
-              console.log(titulo);
+          const maped = legislationResponse.data.data.map((item: any) => {
+            let titulo: string = decode(item.titulo);
+            let resumo: string = decode(item.resumo);
+            console.log("titulo1", item.titulo);
+            console.log("titulo", titulo);
+            console.log("resumo", resumo);
 
-              const ementa = decode(item.resumo);
-              console.log(ementa);
-              const fullTitle = `${titulo}-${ementa}`;
-              return {
-                ...item,
-                // titulo: decode(`${item.titulo}-${item.resumo}`),
-                titulo: fullTitle,
-              };
+            if (titulo && resumo) {
+              let parsedTitulo = titulo.match(/<p>(.*?)<\/p>/);
+              // console.log(parsedTitulo);
+
+              let parsedResumo = resumo.match(/<p>(.*?)<\/p>/);
+              // console.log(parsedResumo);
+
+              if (
+                parsedTitulo &&
+                parsedTitulo?.length > 0 &&
+                parsedResumo &&
+                parsedResumo?.length > 0
+              ) {
+                finalTitle = `${parsedTitulo[1]} - ${parsedResumo[1]}`;
+                console.log("finalTitle", finalTitle);
+              }
             }
-          );
-          setLegislations(() => parsedLegislation);
+            item = { ...item, titulo: finalTitle };
+            return item;
+          });
+          setLegislations(() => maped);
           setIsLoading(false);
         }
         setIsLoading(false);
@@ -99,7 +125,19 @@ const LegislationScreen = ({ navigation }: legislationScreenProps) => {
         `https://api.legacy.publicacoesinr.com.br/legislation?limit=${limit}&page=${newPage}`
       );
       if (legislationResponse.data.success) {
-        setLegislations((prev) => [...prev, ...legislationResponse.data.data]);
+        const maped = legislationResponse.data.data.map((item: any) => {
+          let titulo = item.titulo;
+
+          let parsedTitulo = titulo.match(/<p>(.*?)<\/p>/)[1];
+
+          let resumo = item.resumo;
+          let parsedResumo = resumo.match(/<p>(.*?)<\/p>/)[1];
+          let finalTitle = `<p>${parsedTitulo} - ${parsedResumo}</p>`;
+
+          item = { ...item, titulo: finalTitle };
+          return item;
+        });
+        setLegislations((prev) => [...prev, maped]);
       }
     } catch (error: any) {
       console.log(error.message);

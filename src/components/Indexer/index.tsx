@@ -1,4 +1,5 @@
 import { decode } from "html-entities";
+import { useEffect } from "react";
 import {
   Text,
   TouchableOpacity,
@@ -26,6 +27,8 @@ export type indexerProps = {
 const Indexer = (props: indexerProps) => {
   const { width } = useWindowDimensions();
 
+  useEffect(() => {}, []);
+
   return (
     <View style={styles.itemView}>
       <Text style={styles.screenTitle}>{props.title}</Text>
@@ -38,7 +41,7 @@ const Indexer = (props: indexerProps) => {
                 ellipsizeMode={"tail"}
                 style={styles.itemDate}
               >
-                {item.datacad} - {item.ementa ? `- ${item.ementa}` : ""}
+                {item.datacad} -
               </Text>
               <RenderHTML
                 contentWidth={width}
