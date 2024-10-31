@@ -1,7 +1,14 @@
 import { useFocusEffect } from "@react-navigation/native";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { ScrollView, StyleSheet, Text, TouchableOpacity } from "react-native";
+import {
+  Image,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { NativeStackNavigationProp } from "react-native-screens/lib/typescript/native-stack/types";
 import { Container } from "../../components/Container";
 import Indexer from "../../components/Indexer";
@@ -23,19 +30,24 @@ const QuestionsAndAnswersScreen = ({
   const [questionsAndAnswers, setQuestionsAndAnswers] = useState<any[]>([]);
   const [limit, setLimit] = useState<number>(5);
   const [page, setPage] = useState<number>(0);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   useFocusEffect(
     React.useCallback(() => {
       const fetchData = async () => {
         try {
+          setIsLoading(true);
           const questionsAndAnswersResponse = await axios.get(
             `https://api.legacy.publicacoesinr.com.br/questions-answers?limit=${limit}&page=${page}`
           );
           if (questionsAndAnswersResponse.data.success) {
             setQuestionsAndAnswers(questionsAndAnswersResponse.data.data);
+            setPage(() => 0);
           }
+          setIsLoading(false);
         } catch (error: any) {
           console.log(error.message);
+          setIsLoading(false);
         }
       };
 
@@ -46,14 +58,17 @@ const QuestionsAndAnswersScreen = ({
   useEffect(() => {
     const initialSetup = async () => {
       try {
+        setIsLoading(true);
         const questionsAndAnswersResponse = await axios.get(
-          `https://api.legacy.publicacoesinr.com.br/pareceres?limit=${limit}&page=${page}`
+          `https://api.legacy.publicacoesinr.com.br/questions-answers?limit=${limit}&page=${page}`
         );
         if (questionsAndAnswersResponse.data.success) {
           setQuestionsAndAnswers(() => questionsAndAnswersResponse.data.data);
         }
+        setIsLoading(false);
       } catch (error: any) {
         console.log(error.message);
+        setIsLoading(false);
       }
     };
     initialSetup();
@@ -61,9 +76,11 @@ const QuestionsAndAnswersScreen = ({
 
   const loadMoreQuestionsAndAnswers = async () => {
     try {
-      const newLimit = limit + 5;
+      setIsLoading(true);
+      const newPage = page + 1;
+      setPage(() => newPage);
       const questionsAndAnswersResponse = await axios.get(
-        `https://api.legacy.publicacoesinr.com.br/questions-answers?limit=${newLimit}&page=${page}`
+        `https://api.legacy.publicacoesinr.com.br/questions-answers?limit=${limit}&page=${newPage}`
       );
       if (questionsAndAnswersResponse.data.success) {
         setQuestionsAndAnswers((prev) => [
@@ -71,36 +88,45 @@ const QuestionsAndAnswersScreen = ({
           ...questionsAndAnswersResponse.data.data,
         ]);
       }
+      setIsLoading(false);
     } catch (error: any) {
       console.log(error.message);
+      setIsLoading(false);
     }
   };
 
   return (
     <Container>
-      <ScrollView style={{ flex: 1 }}>
-        <Indexer
-          data={questionsAndAnswers}
-          title="Últimas Consultas"
-          onPress={(item1: any) => {
-            console.log(item1);
-
-            navigation.navigate("Multipurpose", {
-              item: {
-                id: item1.idjurisprudencia,
-                label: "Perguntas e Respostas",
-                tipo: "questions-answers",
-              },
-            });
-          }}
-        />
-        <TouchableOpacity
-          style={styles.buttonContainer}
-          onPress={loadMoreQuestionsAndAnswers}
-        >
-          <Text style={styles.buttonText}>Clique Aqui para ver mais</Text>
-        </TouchableOpacity>
-      </ScrollView>
+      {isLoading ? (
+        <View style={styles.gifContainer}>
+          <Image
+            source={require("../../../assets/images/Loading.gif")}
+            style={styles.gif}
+          />
+        </View>
+      ) : (
+        <ScrollView style={{ flex: 1 }}>
+          <Indexer
+            data={questionsAndAnswers}
+            title="Últimas Consultas"
+            onPress={(item1: any) => {
+              navigation.navigate("Multipurpose", {
+                item: {
+                  id: item1.id,
+                  label: "Perguntas e Respostas",
+                  tipo: "questions-answers",
+                },
+              });
+            }}
+          />
+          <TouchableOpacity
+            style={styles.buttonContainer}
+            onPress={loadMoreQuestionsAndAnswers}
+          >
+            <Text style={styles.buttonText}>Clique Aqui para ver mais</Text>
+          </TouchableOpacity>
+        </ScrollView>
+      )}
     </Container>
   );
 };
@@ -121,5 +147,15 @@ const styles = StyleSheet.create({
   buttonText: {
     fontSize: 18,
     color: Colors.primary.light,
+  },
+  gif: {
+    top: -50,
+    width: 200,
+    height: 200,
+  },
+  gifContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
   },
 });

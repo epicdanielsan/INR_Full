@@ -57,7 +57,6 @@ const LoginScreen = ({ navigation }: loginScreenProps) => {
         login: user,
         senha: password,
       });
-      console.log("authenticationResponse", authenticationResponse.data);
 
       if (authenticationResponse.data.data) {
         //Salvar o token no Async Storage

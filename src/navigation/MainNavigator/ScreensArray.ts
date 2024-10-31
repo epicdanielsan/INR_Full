@@ -69,8 +69,8 @@ export const ScreensArray: ScreensArrayProps[] = [
     component: EditorsMessagesScreen,
   },
   {
-    route: "Pareceres",
-    label: "Pareceres",
+    route: "Pareceres CGJ SP",
+    label: "Pareceres CGJ SP",
     component: LegalViewScreen,
   },
   {

@@ -75,7 +75,7 @@ export const drawerMenu: DrawerMenuItem[] = [
       {
         title: "Pareceres CGJ SP",
         component: LegalViewScreen,
-        route: "Pareceres",
+        route: "Pareceres CGJ SP",
       },
       {
         title: "Perguntas e Respostas",
@@ -149,7 +149,7 @@ export const drawerMenu: DrawerMenuItem[] = [
   },
   {
     title: "Sair",
-    route: "Início",
+    route: undefined,
     component: undefined,
     icon: "MaterialIcons",
     iconName: "logout",

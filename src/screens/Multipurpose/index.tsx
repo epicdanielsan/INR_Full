@@ -9,9 +9,11 @@ import { AuthContext } from "../../contexts/AuthenticationContext";
 import { asyncUser } from "../../lib/types";
 import { RootListType } from "../../navigation/root";
 import JurisprudenceItem from "../Jurispudence/JurisprudenceItem";
+import LegalViewItem from "../LegalView/LegalViewItem";
 import LegislationItem from "../Legislation/LegislationItem";
 import NewsItem from "../News/NewsItem";
 import OpinionItem from "../Opinion/OpinionItem";
+import QuestionsAndAnswersItem from "../QuestionsAndAnswers/QuestionsAndAnswersItem";
 
 type MultipurposeClassScreenRouteProp = RouteProp<RootListType, "Multipurpose">;
 
@@ -88,6 +90,15 @@ const MultipurposeScreen = ({
         return loggedGet("legislation", item.id, userToken || "");
       case "jurisprudence":
         return loggedGet("jurisprudence", item.id, userToken || "");
+      case "pareceres":
+        return loggedGet("pareceres", item.id, userToken || "");
+      case "questions-answers":
+        if (userToken) {
+          return loggedGet("questions-answers", item.id, userToken || "");
+        } else {
+          return commonGet("questions-answers", item.id);
+        }
+
       default:
         break;
     }
@@ -126,6 +137,10 @@ const MultipurposeScreen = ({
         return <LegislationItem item={fetcheditem} />;
       case "jurisprudence":
         return <JurisprudenceItem item={fetcheditem} />;
+      case "pareceres":
+        return <LegalViewItem item={fetcheditem} />;
+      case "questions-answers":
+        return <QuestionsAndAnswersItem item={fetcheditem} />;
       default:
         break;
     }

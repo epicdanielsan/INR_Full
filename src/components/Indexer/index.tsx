@@ -1,5 +1,4 @@
 import { decode } from "html-entities";
-import { useEffect } from "react";
 import {
   Text,
   TouchableOpacity,
@@ -27,7 +26,23 @@ export type indexerProps = {
 const Indexer = (props: indexerProps) => {
   const { width } = useWindowDimensions();
 
-  useEffect(() => {}, []);
+  // const customRenderers = {
+  //   h1: (props: any) => (
+  //     <View>
+  //       <Text
+  //         {...props}
+  //         style={{
+  //           ...props.style,
+  //           numberOfLines: 5,
+  //           ellipsizeMode: "tail",
+  //         }}
+  //       >
+  //         {props.children}
+  //       </Text>
+  //       <Text>Daniel</Text>
+  //     </View>
+  //   ),
+  // };
 
   return (
     <View style={styles.itemView}>
@@ -49,6 +64,7 @@ const Indexer = (props: indexerProps) => {
                   html: decode(item.titulo),
                 }}
                 baseStyle={styles.itemText}
+                // renderers={customRenderers}
               />
             </View>
           </TouchableOpacity>

@@ -1,6 +1,7 @@
 import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
 
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useContext, useEffect, useState } from "react";
 import { Text, TouchableOpacity, View } from "react-native";
 import CustomCarousel from "../../components/Carousel";
@@ -9,6 +10,7 @@ import Highlights from "../../components/Highlights";
 import { BASE_API_HOME, EXPO_PUSH } from "../../constants/api";
 import Colors from "../../constants/Colors";
 import { AuthContext } from "../../contexts/AuthenticationContext";
+import { asyncUser } from "../../lib/types";
 import styles from "./styles";
 
 const HomeScreen = () => {
@@ -40,6 +42,12 @@ const HomeScreen = () => {
   //Buscar os banners na API
   const initialSetup = async () => {
     try {
+      const jsonValue = await AsyncStorage.getItem("user");
+      const parsedValue: asyncUser =
+        jsonValue != null ? JSON.parse(jsonValue) : null;
+      if (parsedValue.userToken) {
+        authContext.login();
+      }
       const apiFetch = await axios.get(BASE_API_HOME);
       if (apiFetch.data.success) {
         const response = apiFetch.data.data;

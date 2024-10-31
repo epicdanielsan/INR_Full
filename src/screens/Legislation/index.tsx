@@ -31,6 +31,8 @@ const LegislationScreen = ({ navigation }: legislationScreenProps) => {
   const [page, setPage] = useState<number>(0);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
+  let finalTitle: string = "";
+
   useFocusEffect(
     React.useCallback(() => {
       const fetchData = async () => {
@@ -41,19 +43,27 @@ const LegislationScreen = ({ navigation }: legislationScreenProps) => {
           );
           if (legislationResponse.data.success) {
             const maped = legislationResponse.data.data.map((item: any) => {
-              let titulo = item.titulo;
+              let titulo: string = decode(item.titulo);
+              let resumo: string = decode(item.resumo);
 
-              // let parsedTitulo = titulo.match(/<p>(.*?)<\/p>/)[1];
+              if (titulo && resumo) {
+                let parsedTitulo = titulo.match(/<p>(.*?)<\/p>/);
 
-              let resumo = item.resumo;
-              // let parsedResumo = resumo.match(/<p>(.*?)<\/p>/)[1];
-              // let finalTitle = `<p>${parsedTitulo} - ${parsedResumo}</p>`;
+                let parsedResumo = resumo.match(/<p>(.*?)<\/p>/);
 
-              // item = { ...item, titulo: finalTitle };
+                if (
+                  parsedTitulo &&
+                  parsedTitulo?.length > 0 &&
+                  parsedResumo &&
+                  parsedResumo?.length > 0
+                ) {
+                  finalTitle = `${parsedTitulo[1]} - ${parsedResumo[1]}`;
+                }
+              }
+              item = { ...item, titulo: finalTitle };
               return item;
             });
             setLegislations(() => maped);
-            setIsLoading(false);
             setPage(() => 0);
             setIsLoading(false);
           }
@@ -70,7 +80,6 @@ const LegislationScreen = ({ navigation }: legislationScreenProps) => {
 
   useEffect(() => {
     const initialSetup = async () => {
-      let finalTitle: string = "";
       try {
         setIsLoading(true);
         const legislationResponse = await axios.get(
@@ -81,16 +90,11 @@ const LegislationScreen = ({ navigation }: legislationScreenProps) => {
           const maped = legislationResponse.data.data.map((item: any) => {
             let titulo: string = decode(item.titulo);
             let resumo: string = decode(item.resumo);
-            console.log("titulo1", item.titulo);
-            console.log("titulo", titulo);
-            console.log("resumo", resumo);
 
             if (titulo && resumo) {
               let parsedTitulo = titulo.match(/<p>(.*?)<\/p>/);
-              // console.log(parsedTitulo);
 
               let parsedResumo = resumo.match(/<p>(.*?)<\/p>/);
-              // console.log(parsedResumo);
 
               if (
                 parsedTitulo &&
@@ -99,7 +103,6 @@ const LegislationScreen = ({ navigation }: legislationScreenProps) => {
                 parsedResumo?.length > 0
               ) {
                 finalTitle = `${parsedTitulo[1]} - ${parsedResumo[1]}`;
-                console.log("finalTitle", finalTitle);
               }
             }
             item = { ...item, titulo: finalTitle };
@@ -126,18 +129,28 @@ const LegislationScreen = ({ navigation }: legislationScreenProps) => {
       );
       if (legislationResponse.data.success) {
         const maped = legislationResponse.data.data.map((item: any) => {
-          let titulo = item.titulo;
+          let titulo: string = decode(item.titulo);
+          let resumo: string = decode(item.resumo);
 
-          let parsedTitulo = titulo.match(/<p>(.*?)<\/p>/)[1];
+          if (titulo && resumo) {
+            let parsedTitulo = titulo.match(/<p>(.*?)<\/p>/);
 
-          let resumo = item.resumo;
-          let parsedResumo = resumo.match(/<p>(.*?)<\/p>/)[1];
-          let finalTitle = `<p>${parsedTitulo} - ${parsedResumo}</p>`;
+            let parsedResumo = resumo.match(/<p>(.*?)<\/p>/);
 
+            if (
+              parsedTitulo &&
+              parsedTitulo?.length > 0 &&
+              parsedResumo &&
+              parsedResumo?.length > 0
+            ) {
+              finalTitle = `${parsedTitulo[1]} - ${parsedResumo[1]}`;
+            }
+          }
           item = { ...item, titulo: finalTitle };
           return item;
         });
-        setLegislations((prev) => [...prev, maped]);
+        setLegislations(() => maped);
+        setIsLoading(false);
       }
     } catch (error: any) {
       console.log(error.message);
