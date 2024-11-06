@@ -78,8 +78,6 @@ const JurisprudenceScreen = ({ navigation }: jurisprudenceScreenProps) => {
           data={jurisprudence}
           title="Últimas Decisões"
           onPress={(item1: any) => {
-            console.log(item1);
-
             navigation.navigate("Multipurpose", {
               item: {
                 id: item1.idjurisprudencia,

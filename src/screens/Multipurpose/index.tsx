@@ -8,6 +8,7 @@ import { Container } from "../../components/Container";
 import { AuthContext } from "../../contexts/AuthenticationContext";
 import { asyncUser } from "../../lib/types";
 import { RootListType } from "../../navigation/root";
+import EditorsMessageItem from "../EditorsMessage/EditorsMessageItem";
 import JurisprudenceItem from "../Jurispudence/JurisprudenceItem";
 import LegalViewItem from "../LegalView/LegalViewItem";
 import LegislationItem from "../Legislation/LegislationItem";
@@ -98,6 +99,12 @@ const MultipurposeScreen = ({
         } else {
           return commonGet("questions-answers", item.id);
         }
+      case "messages-editors":
+        if (userToken) {
+          return loggedGet("messages-editors", item.id, userToken || "");
+        } else {
+          return commonGet("messages-editors", item.id);
+        }
 
       default:
         break;
@@ -114,7 +121,6 @@ const MultipurposeScreen = ({
         if (itemResponse) {
           setFetcheditem(() => itemResponse);
         }
-        console.log(itemResponse.titulo);
 
         setLoading(false);
       } catch (error: any) {
@@ -141,6 +147,8 @@ const MultipurposeScreen = ({
         return <LegalViewItem item={fetcheditem} />;
       case "questions-answers":
         return <QuestionsAndAnswersItem item={fetcheditem} />;
+      case "messages-editors":
+        return <EditorsMessageItem item={fetcheditem} />;
       default:
         break;
     }

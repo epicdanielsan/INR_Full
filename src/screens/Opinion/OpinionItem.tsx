@@ -1,6 +1,6 @@
 import { useNavigation } from "@react-navigation/native";
 import { decode } from "html-entities";
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import {
   StyleSheet,
   Text,
@@ -20,10 +20,6 @@ const OpinionItem = (props: opinionItemProps) => {
   const { width } = useWindowDimensions();
   const authContext = useContext(AuthContext);
   const navigation = useNavigation();
-
-  useEffect(() => {
-    console.log(props.item);
-  }, []);
 
   return (
     <View>
@@ -55,13 +51,19 @@ const OpinionItem = (props: opinionItemProps) => {
           baseStyle={styles.text}
         />
       )}
+      {props.item.autores &&
+        props.item.autores.length > 0 &&
+        props.item.autores.map((item: any, index: number) => (
+          <View key={index}>
+            <Text style={styles.authorName}>{item.nome}</Text>
+            <RenderHTML
+              contentWidth={width}
+              source={{ html: decode(item.curriculo) }}
+              baseStyle={styles.text}
+            />
+          </View>
+        ))}
 
-      <Text style={styles.authorName}>{props.item.autores.nome}</Text>
-      <RenderHTML
-        contentWidth={width}
-        source={{ html: decode(props.item.autores.curriculo) }}
-        baseStyle={styles.text}
-      />
       {props.item.comentario && (
         <View>
           <Text style={styles.notes}>Nota(s) da Redação INR</Text>

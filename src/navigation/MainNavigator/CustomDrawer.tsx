@@ -41,8 +41,6 @@ const CustomDrawer = (props: Props) => {
   const [menuIndex, setMenuIndex] = useState<number>(-1);
 
   const clearUserToken = async () => {
-    console.log("Daniel");
-
     const jsonValue = await AsyncStorage.getItem("user");
     const parsedValue: asyncUser =
       jsonValue != null ? JSON.parse(jsonValue) : null;

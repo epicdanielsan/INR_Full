@@ -24,13 +24,13 @@ const LegalViewItem = (props: legalViewItemProps) => {
         <View>
           <RenderHTML
             contentWidth={width}
-            source={{ html: decode(props.item.ementa) }}
+            source={{ html: decode(props.item.titulo) }}
             baseStyle={styles.title}
           />
 
           <RenderHTML
             contentWidth={width}
-            source={{ html: decode(props.item.texto) }}
+            source={{ html: decode(props.item.ato) }}
             baseStyle={styles.text}
           />
         </View>

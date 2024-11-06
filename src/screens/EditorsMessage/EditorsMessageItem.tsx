@@ -6,11 +6,11 @@ import RenderHTML from "react-native-render-html";
 import Colors from "../../constants/Colors";
 import { AuthContext } from "../../contexts/AuthenticationContext";
 
-type questionsAndAnswersItemProps = {
+type editorsMessageItemProps = {
   item: any;
 };
 
-const QuestionsAndAnswersItem = (props: questionsAndAnswersItemProps) => {
+const EditorsMessageItem = (props: editorsMessageItemProps) => {
   const { width } = useWindowDimensions();
   const authContext = useContext(AuthContext);
   const navigation = useNavigation();
@@ -70,7 +70,7 @@ const QuestionsAndAnswersItem = (props: questionsAndAnswersItemProps) => {
   );
 };
 
-export default QuestionsAndAnswersItem;
+export default EditorsMessageItem;
 
 const styles = StyleSheet.create({
   title: {

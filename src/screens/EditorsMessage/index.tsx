@@ -81,8 +81,6 @@ const EditorsMessagesScreen = ({ navigation }: editorsMessagesScreenProps) => {
           data={editorsMessages}
           title="Últimas Mensagens"
           onPress={(item1: any) => {
-            console.log(item1);
-
             navigation.navigate("Multipurpose", {
               item: {
                 id: item1.idjurisprudencia,
