@@ -9,6 +9,7 @@ import NewsScreen from "../../screens/News";
 import OpinionScreen from "../../screens/Opinion";
 import QuestionsAndAnswersScreen from "../../screens/QuestionsAndAnswers";
 import SPClassificator from "../../screens/SP";
+import SuplementsScreen from "../../screens/Suplements";
 
 interface MenuItem {
   title: string;
@@ -83,7 +84,11 @@ export const drawerMenu: DrawerMenuItem[] = [
         route: "Perguntas e Respostas",
       },
 
-      { title: "Suplementos da Consultoria INR", component: null },
+      {
+        title: "Suplementos da Consultoria INR",
+        component: SuplementsScreen,
+        route: "Suplementos",
+      },
     ],
   },
   {

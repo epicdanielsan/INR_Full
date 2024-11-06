@@ -8,6 +8,7 @@ export type RootListType = {
   EditorsMessages: undefined;
   Indexer: undefined;
   Jurisprudence: undefined;
+  Suplements: undefined;
   LegalView: undefined;
   Legislation: undefined;
   Multipurpose: { item: { id: number; tipo: string; label: string } };

@@ -14,6 +14,7 @@ import OpinionScreen from "../../screens/Opinion";
 import QuestionsAndAnswersScreen from "../../screens/QuestionsAndAnswers";
 import SettingsScreen from "../../screens/Settings";
 import SPClassificator from "../../screens/SP";
+import SuplementsScreen from "../../screens/Suplements";
 
 interface ScreensArrayProps {
   route: string;
@@ -77,6 +78,11 @@ export const ScreensArray: ScreensArrayProps[] = [
     route: "Perguntas e Respostas",
     label: "Perguntas e Respostas",
     component: QuestionsAndAnswersScreen,
+  },
+  {
+    route: "Suplementos",
+    label: "Suplementos",
+    component: SuplementsScreen,
   },
   {
     route: "Multipurpose",
