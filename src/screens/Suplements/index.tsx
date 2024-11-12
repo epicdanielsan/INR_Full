@@ -1,13 +1,18 @@
 import { useFocusEffect } from "@react-navigation/native";
+import axios from "axios";
+import { decode } from "html-entities";
 import React, { useEffect, useState } from "react";
 import {
+  Alert,
   Image,
   ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
+  useWindowDimensions,
   View,
 } from "react-native";
+import RenderHTML from "react-native-render-html";
 import { NativeStackNavigationProp } from "react-native-screens/lib/typescript/native-stack/types";
 import { Container } from "../../components/Container";
 import Colors from "../../constants/Colors";
@@ -24,25 +29,44 @@ interface suplementsScreenProps {
 }
 
 const SuplementsScreen = ({ navigation }: suplementsScreenProps) => {
+  const [suplementsTypes, setSuplementsTypes] = useState<any[]>([]);
   const [suplements, setSuplements] = useState<any[]>([]);
-  const [limit, setLimit] = useState<number>(5);
+  const [limit, setLimit] = useState<number>(40);
   const [page, setPage] = useState<number>(0);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
+  const [selectedIndex, setSelectedIndex] = useState<number | null>(0);
+  const { width } = useWindowDimensions();
 
   useFocusEffect(
     React.useCallback(() => {
       const fetchData = async () => {
         try {
-          // setIsLoading(true);
-          // const suplementsResponse = await axios.get(
-          //   `https://api.legacy.publicacoesinr.com.br/suplements?limit=${limit}&page=${page}`
-          // );
-          // if (suplementsResponse.data.success) {
-          //   setSuplements(suplementsResponse.data.data);
-          //   setPage(() => 0);
-          // }
-          // setIsLoading(false);
+          //Pegar os tipos de suplementos
+          const typesResponse = await axios.get(
+            "https://api.legacy.publicacoesinr.com.br/supplements/themes/list"
+          );
+
+          if (typesResponse.data) {
+            try {
+              setSuplementsTypes(() => typesResponse.data.data);
+
+              const suplementsResponse = await axios.get(
+                `https://api.legacy.publicacoesinr.com.br/supplements?theme=${suplementsTypes[0].id}&limit=${limit}&page=${page}`
+              );
+
+              if (suplementsResponse.data) {
+                setSelectedIndex(0);
+                setSuplements(() => suplementsResponse.data.data);
+              }
+              setIsLoading(false);
+            } catch (error: any) {
+              console.warn(error.message);
+            }
+          } else {
+            Alert.alert("Erro!!!", "Nenhum resultado encontrado.");
+            setIsLoading(false);
+            return;
+          }
         } catch (error: any) {
           console.log(error.message);
           setIsLoading(false);
@@ -55,90 +79,72 @@ const SuplementsScreen = ({ navigation }: suplementsScreenProps) => {
 
   useEffect(() => {
     const initialSetup = async () => {
+      setIsLoading(true);
       try {
-        // setIsLoading(true);
-        // const suplementsResponse = await axios.get(
-        //   `https://api.legacy.publicacoesinr.com.br/suplements?limit=${limit}&page=${page}`
-        // );
-        // if (suplementsResponse.data.success) {
-        //   setSuplements(() => suplementsResponse.data.data);
-        // }
-        // setIsLoading(false);
+        //Pegar os tipos de suplementos
+        const typesResponse = await axios.get(
+          "https://api.legacy.publicacoesinr.com.br/supplements/themes/list"
+        );
+
+        if (typesResponse.data) {
+          try {
+            setSuplementsTypes(() => typesResponse.data.data);
+
+            const suplementsResponse = await axios.get(
+              `https://api.legacy.publicacoesinr.com.br/supplements?theme=${suplementsTypes[0].id}&limit=${limit}&page=${page}`
+            );
+
+            if (suplementsResponse.data) {
+              setSelectedIndex(0);
+              setSuplements(() => suplementsResponse.data.data);
+            }
+            setIsLoading(false);
+          } catch (error: any) {
+            console.warn(error.message);
+          }
+        } else {
+          Alert.alert("Erro!!!", "Nenhum resultado encontrado.");
+          setIsLoading(false);
+          return;
+        }
       } catch (error: any) {
         console.log(error.message);
         setIsLoading(false);
       }
     };
     initialSetup();
+    setIsLoading(false);
   }, []);
-
-  const loadMoreSuplements = async () => {
-    try {
-      // setIsLoading(true);
-      // const newPage = page + 1;
-      // setPage(() => newPage);
-      // const suplementsResponse = await axios.get(
-      //   `https://api.legacy.publicacoesinr.com.br/suplements?limit=${limit}&page=${newPage}`
-      // );
-      // if (suplementsResponse.data.success) {
-      //   setSuplements((prev) => [...prev, ...suplementsResponse.data.data]);
-      // }
-      // setIsLoading(false);
-    } catch (error: any) {
-      console.log(error.message);
-      setIsLoading(false);
-    }
-  };
 
   interface ButtonLabelItem {
     title: string;
   }
 
-  const buttonsLabels = [
-    {
-      title: "Tributário",
-      content: [
-        "15/12/2023 – CND conjunta – Atual regime jurídico.",
-        "24/11/2021 – CNPJ – Aquisição de veículo em nome do `cartório`.",
-        "15/12/2023 – CND conjunta – Atual regime jurídico.",
-        "24/11/2021 – CNPJ – Aquisição de veículo em nome do `cartório`.",
-        "15/12/2023 – CND conjunta – Atual regime jurídico.",
-        "24/11/2021 – CNPJ – Aquisição de veículo em nome do `cartório`.",
-        "15/12/2023 – CND conjunta – Atual regime jurídico.",
-        "24/11/2021 – CNPJ – Aquisição de veículo em nome do `cartório`.",
-      ],
-    },
-    {
-      title: "Trabalhista",
-      content: [
-        "27/03/2023 – Direitos da empregada lactante.",
-        "03/02/2022 – Efeméride de Carnaval",
-      ],
-    },
-    {
-      title: "Previdenciário",
-      content: [
-        "22/01/2024 – Contribuição Previdenciária pessoal de Notários e Registradores.",
-        "22/01/2024 – Salário-família – Manutenção – Apresentação de documentos.",
-      ],
-    },
-    {
-      title: "Geral",
-      content: [
-        "16/02/2018 – Cadastros de Notários e Registradores (CNPJ, CPF e CEI).",
-        "26/04/2018 – Tempo de guarda de documentos.",
-      ],
-    },
-  ];
-
-  const rows = buttonsLabels.reduce((acc, curr, index) => {
+  const rows = suplementsTypes.reduce((acc, curr, index) => {
     if (index % 2 === 0) acc.push([]);
     acc[acc.length - 1].push(curr);
     return acc;
   }, [] as ButtonLabelItem[][]);
 
-  const handlePress = (index: number) => {
-    setSelectedIndex(index);
+  const handlePress = async (id: number, index: number) => {
+    setSelectedIndex(() => index);
+
+    try {
+      setIsLoading(true);
+      const changeResponse = await axios.get(
+        `https://api.legacy.publicacoesinr.com.br/supplements?theme=${id}&limit=${limit}&page=${page}`
+      );
+      if (changeResponse.data) {
+        setSuplements(() => changeResponse.data.data);
+        setIsLoading(false);
+      } else {
+        setIsLoading(false);
+        return;
+      }
+    } catch (error: any) {
+      setIsLoading(false);
+      console.warn(error.message);
+    }
   };
 
   return (
@@ -152,54 +158,72 @@ const SuplementsScreen = ({ navigation }: suplementsScreenProps) => {
         </View>
       ) : (
         <ScrollView style={{ flex: 1 }}>
-          {/* <Indexer
-            data={suplements}
-            title="Últimas Consultas"
-            onPress={(item1: any) => {
-              navigation.navigate("Multipurpose", {
-                item: {
-                  id: item1.id,
-                  label: "Suplementos",
-                  tipo: "suplements",
-                },
-              });
-            }}
-          /> */}
-          {/* <TouchableOpacity
-            style={styles.buttonContainer}
-            onPress={loadMoreSuplements}
-          >
-            <Text style={styles.buttonText}>Clique Aqui para ver mais</Text>
-          </TouchableOpacity> */}
           <SuplementsIntroduction />
           <View style={styles.container}>
-            {rows.map((row, rowIndex) => (
-              <View key={rowIndex} style={styles.buttonsContainer}>
-                {row.map((item, index) => {
-                  const absoluteIndex = rowIndex * 2 + index;
-                  return (
-                    <TouchableOpacity
-                      key={absoluteIndex}
-                      style={[
-                        styles.touchable,
-                        selectedIndex === absoluteIndex &&
-                          styles.selectedTouchable,
-                      ]}
-                      onPress={() => handlePress(absoluteIndex)}
-                    >
-                      <Text style={styles.buttonTitle}>{item.title}</Text>
-                    </TouchableOpacity>
-                  );
-                })}
-              </View>
-            ))}
+            {rows &&
+              rows.length > 0 &&
+              rows.map((row: any, rowIndex: number) => (
+                <View key={rowIndex} style={styles.buttonsContainer}>
+                  {row &&
+                    row.length > 0 &&
+                    row.map((item: any, index: number) => {
+                      const absoluteIndex = rowIndex * 2 + index;
+                      return (
+                        <TouchableOpacity
+                          key={absoluteIndex}
+                          style={[
+                            styles.touchable,
+                            selectedIndex === absoluteIndex &&
+                              styles.selectedTouchable,
+                          ]}
+                          onPress={() => handlePress(item.id, absoluteIndex)}
+                        >
+                          <View style={{ flexDirection: "row" }}>
+                            <Text style={styles.buttonTitle}>
+                              {decode(item.titulo)}
+                            </Text>
+                          </View>
+                        </TouchableOpacity>
+                      );
+                    })}
+                </View>
+              ))}
             {selectedIndex !== null && (
               <View style={styles.contentContainer}>
-                {buttonsLabels[selectedIndex].content.map((detail, index) => (
-                  <Text key={index} style={styles.contentText}>
-                    {detail}
-                  </Text>
-                ))}
+                {isLoading ? (
+                  <View style={styles.gifContainer}>
+                    <Image
+                      source={require("../../../assets/images/Loading.gif")}
+                      style={styles.gif}
+                    />
+                  </View>
+                ) : (
+                  suplements.map((detail: any, index: number) => {
+                    return (
+                      <TouchableOpacity
+                        style={styles.titleContainer}
+                        onPress={() => {
+                          navigation.navigate("Multipurpose", {
+                            item: {
+                              id: detail.id,
+                              label: "Suplementos INR",
+                              tipo: detail.tipo,
+                            },
+                          });
+                        }}
+                      >
+                        <Text style={styles.title}>
+                          {detail.datacad_fmt} -{" "}
+                        </Text>
+                        <RenderHTML
+                          contentWidth={width}
+                          source={{ html: decode(detail.titulo) }}
+                          baseStyle={styles.title}
+                        />
+                      </TouchableOpacity>
+                    );
+                  })
+                )}
               </View>
             )}
           </View>
@@ -261,5 +285,15 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: Colors.primary.title,
     marginVertical: 10,
+  },
+  titleContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    flex: 1,
+    marginVertical: 20,
+  },
+  title: {
+    fontSize: 15,
+    color: Colors.primary.title,
   },
 });

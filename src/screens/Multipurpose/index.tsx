@@ -15,6 +15,7 @@ import LegislationItem from "../Legislation/LegislationItem";
 import NewsItem from "../News/NewsItem";
 import OpinionItem from "../Opinion/OpinionItem";
 import QuestionsAndAnswersItem from "../QuestionsAndAnswers/QuestionsAndAnswersItem";
+import SuplementsItem from "../Suplements/SuplementsItem";
 
 type MultipurposeClassScreenRouteProp = RouteProp<RootListType, "Multipurpose">;
 
@@ -105,6 +106,12 @@ const MultipurposeScreen = ({
         } else {
           return commonGet("messages-editors", item.id);
         }
+      case "supplements":
+        if (userToken) {
+          return loggedGet("supplements", item.id, userToken || "");
+        } else {
+          return commonGet("supplements", item.id);
+        }
 
       default:
         break;
@@ -149,6 +156,8 @@ const MultipurposeScreen = ({
         return <QuestionsAndAnswersItem item={fetcheditem} />;
       case "messages-editors":
         return <EditorsMessageItem item={fetcheditem} />;
+      case "supplements":
+        return <SuplementsItem item={fetcheditem} />;
       default:
         break;
     }
