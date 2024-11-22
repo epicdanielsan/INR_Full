@@ -149,86 +149,75 @@ const SuplementsScreen = ({ navigation }: suplementsScreenProps) => {
 
   return (
     <Container>
-      {isLoading ? (
-        <View style={styles.gifContainer}>
-          <Image
-            source={require("../../../assets/images/Loading.gif")}
-            style={styles.gif}
-          />
-        </View>
-      ) : (
-        <ScrollView style={{ flex: 1 }}>
-          <SuplementsIntroduction />
-          <View style={styles.container}>
-            {rows &&
-              rows.length > 0 &&
-              rows.map((row: any, rowIndex: number) => (
-                <View key={rowIndex} style={styles.buttonsContainer}>
-                  {row &&
-                    row.length > 0 &&
-                    row.map((item: any, index: number) => {
-                      const absoluteIndex = rowIndex * 2 + index;
-                      return (
-                        <TouchableOpacity
-                          key={absoluteIndex}
-                          style={[
-                            styles.touchable,
-                            selectedIndex === absoluteIndex &&
-                              styles.selectedTouchable,
-                          ]}
-                          onPress={() => handlePress(item.id, absoluteIndex)}
-                        >
-                          <View style={{ flexDirection: "row" }}>
-                            <Text style={styles.buttonTitle}>
-                              {decode(item.titulo)}
-                            </Text>
-                          </View>
-                        </TouchableOpacity>
-                      );
-                    })}
-                </View>
-              ))}
-            {selectedIndex !== null && (
-              <View style={styles.contentContainer}>
-                {isLoading ? (
-                  <View style={styles.gifContainer}>
-                    <Image
-                      source={require("../../../assets/images/Loading.gif")}
-                      style={styles.gif}
-                    />
-                  </View>
-                ) : (
-                  suplements.map((detail: any, index: number) => {
+      <ScrollView style={{ flex: 1 }}>
+        <SuplementsIntroduction />
+        <View style={styles.container}>
+          {rows &&
+            rows.length > 0 &&
+            rows.map((row: any, rowIndex: number) => (
+              <View key={rowIndex} style={styles.buttonsContainer}>
+                {row &&
+                  row.length > 0 &&
+                  row.map((item: any, index: number) => {
+                    const absoluteIndex = rowIndex * 2 + index;
                     return (
                       <TouchableOpacity
-                        style={styles.titleContainer}
-                        onPress={() => {
-                          navigation.navigate("Multipurpose", {
-                            item: {
-                              id: detail.id,
-                              label: "Suplementos INR",
-                              tipo: detail.tipo,
-                            },
-                          });
-                        }}
+                        key={absoluteIndex}
+                        style={[
+                          styles.touchable,
+                          selectedIndex === absoluteIndex &&
+                            styles.selectedTouchable,
+                        ]}
+                        onPress={() => handlePress(item.id, absoluteIndex)}
                       >
-                        <Text style={styles.title}>
-                          {detail.datacad_fmt} -{" "}
-                        </Text>
-                        <RenderHTML
-                          contentWidth={width}
-                          source={{ html: decode(detail.titulo) }}
-                          baseStyle={styles.title}
-                        />
+                        <View style={{ flexDirection: "row" }}>
+                          <Text style={styles.buttonTitle}>
+                            {decode(item.titulo)}
+                          </Text>
+                        </View>
                       </TouchableOpacity>
                     );
-                  })
-                )}
+                  })}
               </View>
-            )}
-          </View>
-        </ScrollView>
-      )}
+            ))}
+          {selectedIndex !== null && (
+            <View style={styles.contentContainer}>
+              {isLoading ? (
+                <View style={styles.gifContainer}>
+                  <Image
+                    source={require("../../../assets/images/Loading.gif")}
+                    style={styles.gif}
+                  />
+                </View>
+              ) : (
+                suplements.map((detail: any, index: number) => {
+                  return (
+                    <TouchableOpacity
+                      style={styles.titleContainer}
+                      onPress={() => {
+                        navigation.navigate("Multipurpose", {
+                          item: {
+                            id: detail.id,
+                            label: "Suplementos INR",
+                            tipo: detail.tipo,
+                          },
+                        });
+                      }}
+                    >
+                      <Text style={styles.title}>{detail.datacad_fmt} - </Text>
+                      <RenderHTML
+                        contentWidth={width}
+                        source={{ html: decode(detail.titulo) }}
+                        baseStyle={styles.title}
+                      />
+                    </TouchableOpacity>
+                  );
+                })
+              )}
+            </View>
+          )}
+        </View>
+      </ScrollView>
     </Container>
   );
 };

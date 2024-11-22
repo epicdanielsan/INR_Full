@@ -126,6 +126,8 @@ const App = () => {
             }
             parsedValue.expoPushToken = pushTokenString;
             if (parsedValue.userToken) {
+              console.log(parsedValue.userToken);
+
               authContext.login();
             }
             await AsyncStorage.setItem("user", JSON.stringify(parsedValue));
