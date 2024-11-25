@@ -1,15 +1,12 @@
 import { DrawerNavigationProp } from "@react-navigation/drawer";
 import { RouteProp } from "@react-navigation/native";
-import { useContext, useRef } from "react";
-import { ScrollView, Text, useWindowDimensions, View } from "react-native";
-import RenderHTML from "react-native-render-html";
+import { Fragment, useContext, useRef } from "react";
+import { ScrollView, Text, View } from "react-native";
 import { AuthContext } from "../../contexts/AuthenticationContext";
 import { RootListType } from "../../navigation/root";
 import BackToTopButton from "../BackToTopButton";
 import { Container } from "../Container";
-import barColors from "./barColors";
-import { actsType } from "./DateIndexer";
-import Divisor from "./Divisor";
+import ClassItem from "./ClassItem";
 import styles from "./styles";
 
 type MultipurposeClassScreenRouteProp = RouteProp<
@@ -32,7 +29,7 @@ const MultipurposeClassScreen = ({
   route,
 }: MultipurposeClassScreenProps) => {
   const { classificador } = route.params;
-  const { width } = useWindowDimensions();
+
   const authContext = useContext(AuthContext);
 
   navigation.setOptions({
@@ -51,8 +48,6 @@ const MultipurposeClassScreen = ({
     }
   };
 
-  const randomIndex = Math.floor(Math.random() * barColors.length);
-
   return (
     <Container>
       <ScrollView ref={scrollViewRef}>
@@ -66,25 +61,47 @@ const MultipurposeClassScreen = ({
           </View>
         )}
         {classificador && authContext.isLoggedIn && (
-          <Text
-            style={[styles.bar, { backgroundColor: barColors[randomIndex] }]}
-          >
-            {classificador.bar}
-          </Text>
+          <View>
+            <Text style={[styles.bar, { backgroundColor: classificador.cor }]}>
+              {classificador.titulo}
+            </Text>
+            {classificador.orgao.length > 0 &&
+              classificador.orgao.map((itemOrgao: any, indexOrgao: number) => (
+                <Fragment>
+                  <Text key={itemOrgao.id} style={styles.organTitle}>
+                    {itemOrgao.titulo}
+                  </Text>
+                  <View>
+                    {itemOrgao.departamento.length > 0 &&
+                      itemOrgao.departamento.map(
+                        (itemDep: any, indexDep: number) => (
+                          <View key={itemDep.id}>
+                            <Text style={styles.departmentTitle}>
+                              {itemDep.nome}
+                            </Text>
+                            <Text style={{ marginLeft: 15, fontWeight: "500" }}>
+                              {classificador.date}
+                            </Text>
+                            <View
+                              style={{
+                                borderBottomWidth: 1,
+                                marginHorizontal: 5,
+                              }}
+                            ></View>
+                            {itemDep.atos.length > 0 &&
+                              itemDep.atos.map(
+                                (itemAto: any, indexAto: number) => (
+                                  <ClassItem id={itemAto.id} key={itemAto.id} />
+                                )
+                              )}
+                          </View>
+                        )
+                      )}
+                  </View>
+                </Fragment>
+              ))}
+          </View>
         )}
-        {classificador.acts &&
-          authContext.isLoggedIn &&
-          classificador.acts.map((item1: actsType, index1: number) => (
-            <View style={{ marginHorizontal: 5 }} key={index1}>
-              <Text style={{ fontWeight: "500" }}>{item1.title}</Text>
-              {item1.species && <Text>Espécie: {item1.species}</Text>}
-              {item1.number && <Text>Número: {item1.number}</Text>}
-              {item1.county && <Text>Comarca: {item1.county}</Text>}
-
-              <RenderHTML contentWidth={width} source={item1} />
-              {index1 < classificador.acts.length - 1 && <Divisor />}
-            </View>
-          ))}
 
         {authContext.isLoggedIn && <BackToTopButton onPress={scrollToTop} />}
       </ScrollView>

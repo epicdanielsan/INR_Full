@@ -5,7 +5,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 20,
     textAlign: "center",
-    color: Colors.primary.title,
+    color: Colors.primary.dark,
   },
   indexTitle: {
     fontSize: 20,
@@ -17,6 +17,7 @@ const styles = StyleSheet.create({
   },
   barTitle: {
     color: Colors.primary.title,
+    marginBottom: 10,
   },
   bar: {
     textAlign: "center",
@@ -26,11 +27,13 @@ const styles = StyleSheet.create({
     color: "#fff",
   },
   organTitle: {
-    textAlign: "center",
-    fontWeight: "bold",
+    textAlign: "left",
+    fontWeight: "500",
+    marginLeft: 20,
   },
   departmentTitle: {
     textAlign: "center",
+    color: Colors.primary.dark,
     fontWeight: "500",
   },
   date: {
@@ -45,6 +48,9 @@ const styles = StyleSheet.create({
   },
   button: {
     marginHorizontal: 10,
+  },
+  text: {
+    marginHorizontal: 5,
   },
 });
 

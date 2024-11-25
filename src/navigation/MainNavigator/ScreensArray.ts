@@ -11,7 +11,9 @@ import LoginScreen from "../../screens/Login";
 import MultipurposeScreen from "../../screens/Multipurpose";
 import NewsScreen from "../../screens/News";
 import OpinionScreen from "../../screens/Opinion";
+import PRClassificator from "../../screens/PR";
 import QuestionsAndAnswersScreen from "../../screens/QuestionsAndAnswers";
+import RSClassificator from "../../screens/RS";
 import SettingsScreen from "../../screens/Settings";
 import SPClassificator from "../../screens/SP";
 import SuplementsScreen from "../../screens/Suplements";
@@ -93,6 +95,16 @@ export const ScreensArray: ScreensArrayProps[] = [
     route: "Classificadores SP",
     label: "Classificadores SP",
     component: SPClassificator,
+  },
+  {
+    route: "Classificadores PR",
+    label: "Classificadores PR",
+    component: PRClassificator,
+  },
+  {
+    route: "Classificadores RS",
+    label: "Classificadores RS",
+    component: RSClassificator,
   },
   {
     route: "IndexClassScreen",

@@ -7,7 +7,9 @@ import LegislationScreen from "../../screens/Legislation";
 import LoginScreen from "../../screens/Login";
 import NewsScreen from "../../screens/News";
 import OpinionScreen from "../../screens/Opinion";
+import PRClassificator from "../../screens/PR";
 import QuestionsAndAnswersScreen from "../../screens/QuestionsAndAnswers";
+import RSClassificator from "../../screens/RS";
 import SPClassificator from "../../screens/SP";
 import SuplementsScreen from "../../screens/Suplements";
 
@@ -96,13 +98,21 @@ export const drawerMenu: DrawerMenuItem[] = [
     icon: "Entypo",
     iconName: "news",
     menuList: [
-      { title: "Classificadores INR PR", component: null },
+      {
+        title: "Classificadores INR PR",
+        component: PRClassificator,
+        route: "Classificadores PR",
+      },
       {
         title: "Classificadores INR SP",
         component: SPClassificator,
         route: "Classificadores SP",
       },
-      { title: "Classificadores INR RS", component: null },
+      {
+        title: "Classificadores INR RS",
+        component: RSClassificator,
+        route: "Classificadores RS",
+      },
       { title: "Arquivos Acumulados dos Classificadores SP", component: null },
     ],
   },

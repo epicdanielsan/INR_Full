@@ -12,14 +12,14 @@ import styles from "./styles";
 
 type DateIndexerNavigationProp = DrawerNavigationProp<
   RootListType,
-  "SPClassificator"
+  "RSClassificator"
 >;
 
 interface navigationProps {
   navigation: DateIndexerNavigationProp;
 }
 
-const SPClassificator = ({ navigation }: navigationProps) => {
+const RSClassificator = ({ navigation }: navigationProps) => {
   const [limit, setLimit] = useState<number>(10);
   const [page, setPage] = useState<number>(0);
   const [items, setItems] = useState<any[]>([]);
@@ -32,7 +32,7 @@ const SPClassificator = ({ navigation }: navigationProps) => {
     const initialSetup = async () => {
       try {
         const stateObj = await axios.get(
-          `https://api.legacy.publicacoesinr.com.br/classifiers/state?acronym=SP`
+          `https://api.legacy.publicacoesinr.com.br/classifiers/state?acronym=RS`
         );
         if (stateObj.data.success) {
           const stateId = stateObj.data.data.idestado;
@@ -46,7 +46,7 @@ const SPClassificator = ({ navigation }: navigationProps) => {
                   id: item.id,
                   date: item.datacad,
                   route: "IndexClassScreen",
-                  type: "SP",
+                  type: "RS",
                 };
               }
             );
@@ -71,4 +71,4 @@ const SPClassificator = ({ navigation }: navigationProps) => {
   );
 };
 
-export default SPClassificator;
+export default RSClassificator;

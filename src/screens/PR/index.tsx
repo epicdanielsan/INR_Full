@@ -7,19 +7,19 @@ import DateIndexer, {
 } from "../../components/Classificators/DateIndexer";
 import { Container } from "../../components/Container";
 import { RootListType } from "../../navigation/root";
-import SPIntroduction from "./SPIntroduction";
+import PRIntroduction from "./PRIntroduction";
 import styles from "./styles";
 
 type DateIndexerNavigationProp = DrawerNavigationProp<
   RootListType,
-  "SPClassificator"
+  "PRClassificator"
 >;
 
 interface navigationProps {
   navigation: DateIndexerNavigationProp;
 }
 
-const SPClassificator = ({ navigation }: navigationProps) => {
+const PRClassificator = ({ navigation }: navigationProps) => {
   const [limit, setLimit] = useState<number>(10);
   const [page, setPage] = useState<number>(0);
   const [items, setItems] = useState<any[]>([]);
@@ -32,7 +32,7 @@ const SPClassificator = ({ navigation }: navigationProps) => {
     const initialSetup = async () => {
       try {
         const stateObj = await axios.get(
-          `https://api.legacy.publicacoesinr.com.br/classifiers/state?acronym=SP`
+          `https://api.legacy.publicacoesinr.com.br/classifiers/state?acronym=PR`
         );
         if (stateObj.data.success) {
           const stateId = stateObj.data.data.idestado;
@@ -46,7 +46,7 @@ const SPClassificator = ({ navigation }: navigationProps) => {
                   id: item.id,
                   date: item.datacad,
                   route: "IndexClassScreen",
-                  type: "SP",
+                  type: "PR",
                 };
               }
             );
@@ -63,7 +63,7 @@ const SPClassificator = ({ navigation }: navigationProps) => {
   return (
     <Container>
       <ScrollView>
-        <SPIntroduction />
+        <PRIntroduction />
         <Text style={styles.indexTitle}>Índice</Text>
         <DateIndexer data={items} onPress={handlePress} />
       </ScrollView>
@@ -71,4 +71,4 @@ const SPClassificator = ({ navigation }: navigationProps) => {
   );
 };
 
-export default SPClassificator;
+export default PRClassificator;
