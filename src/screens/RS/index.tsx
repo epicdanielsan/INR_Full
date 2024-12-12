@@ -7,7 +7,7 @@ import DateIndexer, {
 } from "../../components/Classificators/DateIndexer";
 import { Container } from "../../components/Container";
 import { RootListType } from "../../navigation/root";
-import SPIntroduction from "./SPIntroduction";
+import RSIntroduction from "./RSIntroduction";
 import styles from "./styles";
 
 type DateIndexerNavigationProp = DrawerNavigationProp<
@@ -63,7 +63,7 @@ const RSClassificator = ({ navigation }: navigationProps) => {
   return (
     <Container>
       <ScrollView>
-        <SPIntroduction />
+        <RSIntroduction />
         <Text style={styles.indexTitle}>Índice</Text>
         <DateIndexer data={items} onPress={handlePress} />
       </ScrollView>

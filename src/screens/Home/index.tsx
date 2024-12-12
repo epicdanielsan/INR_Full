@@ -1,23 +1,47 @@
-import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { decode } from "html-entities";
 import { useContext, useEffect, useState } from "react";
-import { Text, TouchableOpacity, View } from "react-native";
+import {
+  Image,
+  Linking,
+  ScrollView,
+  Text,
+  TouchableOpacity,
+  useWindowDimensions,
+  View,
+} from "react-native";
+import RenderHTML from "react-native-render-html";
+import { NativeStackNavigationProp } from "react-native-screens/lib/typescript/native-stack/types";
 import CustomCarousel from "../../components/Carousel";
 import { Container } from "../../components/Container";
-import Highlights from "../../components/Highlights";
 import { BASE_API_HOME, EXPO_PUSH } from "../../constants/api";
 import Colors from "../../constants/Colors";
 import { AuthContext } from "../../contexts/AuthenticationContext";
 import { asyncUser } from "../../lib/types";
+import { RootListType } from "../../navigation/root";
 import styles from "./styles";
 
-const HomeScreen = () => {
-  const navigation = useNavigation();
+type homeScreenNavigationProp = NativeStackNavigationProp<
+  RootListType,
+  "Início"
+>;
+
+interface homeScreenProps {
+  navigation: homeScreenNavigationProp;
+}
+
+const HomeScreen = ({ navigation }: homeScreenProps) => {
+  // const navigation = useNavigation();
   const [banners, setBanners] = useState<any[]>([]);
   const [destaques, setDestaques] = useState<any[]>([]);
+  const [publicidade, setPublicidade] = useState<any[]>([]);
   const authContext = useContext(AuthContext);
+  const { width } = useWindowDimensions();
+
+  const array1 = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j"];
+  const array2 = ["1", "2", "3"];
 
   async function sendPushNotification(expoPushToken: string) {
     const message = {
@@ -49,6 +73,7 @@ const HomeScreen = () => {
         authContext.login();
       }
       const apiFetch = await axios.get(BASE_API_HOME);
+
       if (apiFetch.data.success) {
         const response = apiFetch.data.data;
 
@@ -57,6 +82,37 @@ const HomeScreen = () => {
         }
         if (response.links.length > 0) {
           setDestaques(response.links);
+        }
+        if (response.publicidade.length > 0) {
+          const parsedUrls = response.publicidade.map(
+            (item: any, index: number) => {
+              const imageAddress = decode(item.texto);
+              return {
+                src: imageAddress
+                  .slice(imageAddress.indexOf("src"))
+                  .split('"')[1],
+                href: imageAddress
+                  .slice(imageAddress.indexOf("href"))
+                  .split('"')[1],
+              };
+            }
+          );
+          setPublicidade(() => [...parsedUrls]);
+          // let result = decode(response.publicidade[0].texto);
+          // console.log("result", result);
+
+          // const imgTags = result.match(/<img [^>]*src="[^"]*"[^>]*>/gm);
+          // console.log("imgTags", imgTags);
+
+          // const sources = result
+          //   .match(/<img [^>]*src="[^"]*"[^>]*>/gm)
+          //   .map((x) => x.replace(/.*src="([^"]*)".*/, "$1"));
+          // console.log("sources", sources);
+          // const src = result.slice(result.indexOf("src")).split('"')[1];
+          // console.log("src", src);
+
+          // setPublicidade(response.publicidade);
+          // console.log(decode(response.publicidade[0].texto));
         }
       }
     } catch (error: any) {
@@ -81,7 +137,85 @@ const HomeScreen = () => {
           <Text style={styles.seeAllTitle}>Ver Todos</Text>
         </TouchableOpacity>
       </View>
-      <Highlights numberOfHighlights={5} minHeight={700} data={destaques} />
+      <ScrollView>
+        {destaques.slice(0, 15).map((item: any, index: number) => {
+          if ((index + 1) % 3 === 0 && publicidade[Math.floor(index / 3)]) {
+            // const srcMatch = publicidade[Math.floor(index / 3)].texto.match(
+            //   /<img[^>]+src="([^"]+)"/
+            // );
+            // console.log(decode(publicidade[Math.floor(index / 3)].texto));
+            // console.log(srcMatch);
+          }
+
+          return (
+            <View>
+              <TouchableOpacity
+                key={index}
+                onPress={() => {
+                  navigation.navigate("Multipurpose", {
+                    item: {
+                      id: item.id,
+                      label: item.label,
+                      tipo: item.tipo,
+                    },
+                  });
+                }}
+              >
+                <View style={styles.highlightContainer}>
+                  <View style={{ flex: 3 }}>
+                    <Text style={{ color: Colors.primary.title }}>
+                      {item.label}
+                    </Text>
+                    <RenderHTML
+                      contentWidth={width}
+                      source={{
+                        html: decode(item.content[0].titulo, {
+                          level: "html5",
+                        }),
+                      }}
+                      baseStyle={styles.highlight}
+                    />
+                  </View>
+                  <View style={{ flex: 1, marginLeft: 25 }}>
+                    <Image
+                      source={{ uri: `${item.content[0].img}` }}
+                      style={{ height: 90, width: 90, borderRadius: 5 }}
+                    />
+                  </View>
+                </View>
+              </TouchableOpacity>
+              {(index + 1) % 3 === 0 && publicidade[Math.floor(index / 3)] && (
+                <View style={{ flex: 1, marginHorizontal: 25 }}>
+                  <TouchableOpacity
+                    onPress={() => {
+                      // Linking.openURL("https://tac7.com.br/");
+                      Linking.openURL(publicidade[Math.floor(index / 3)].href);
+                    }}
+                  >
+                    <Image
+                      source={{
+                        // uri: `${"https://inrpublicacoes.com.br/sistema/kcfinder_up/images/TAC7_be.png"}`,
+                        uri: `${publicidade[Math.floor(index / 3)].src}`,
+                      }}
+                      style={{
+                        height: 100,
+                        width: "100%",
+                        borderRadius: 5,
+                        resizeMode: "contain",
+                      }}
+                    />
+                  </TouchableOpacity>
+                  {/* <Text>{decode(publicidade[Math.floor(index / 3)].texto).src}</Text> */}
+                </View>
+              )}
+            </View>
+          );
+        })}
+      </ScrollView>
+
+      <ScrollView>
+        {/* <Highlights numberOfHighlights={10} minHeight={700} data={destaques} /> */}
+      </ScrollView>
     </Container>
   );
 };

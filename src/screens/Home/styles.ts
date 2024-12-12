@@ -10,8 +10,14 @@ const styles = StyleSheet.create({
     marginVertical: 5,
   },
   highlightTitle: {
-    fontSize: 25,
+    fontSize: 28,
     color: Colors.primary.dark,
+  },
+  highlight: {
+    fontSize: 15,
+    marginLeft: 10,
+    color: Colors.primary.dark,
+    fontWeight: "500",
   },
   seeAllTitle: {
     fontSize: 15,

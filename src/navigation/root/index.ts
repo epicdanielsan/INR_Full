@@ -8,6 +8,7 @@ export type RootListType = {
   LogIn: undefined;
   RetrievePassword: undefined;
   EditorsMessages: undefined;
+  Highlights: undefined;
   Indexer: undefined;
   Jurisprudence: undefined;
   Suplements: undefined;

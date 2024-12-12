@@ -68,14 +68,21 @@ const MultipurposeClassScreen = ({
             {classificador.orgao.length > 0 &&
               classificador.orgao.map((itemOrgao: any, indexOrgao: number) => (
                 <Fragment>
-                  <Text key={itemOrgao.id} style={styles.organTitle}>
+                  <Text
+                    key={itemOrgao.id + Math.floor(Math.random() * 999999)}
+                    style={styles.organTitle}
+                  >
                     {itemOrgao.titulo}
                   </Text>
                   <View>
                     {itemOrgao.departamento.length > 0 &&
                       itemOrgao.departamento.map(
                         (itemDep: any, indexDep: number) => (
-                          <View key={itemDep.id}>
+                          <View
+                            key={
+                              itemDep.id + Math.floor(Math.random() * 999999)
+                            }
+                          >
                             <Text style={styles.departmentTitle}>
                               {itemDep.nome}
                             </Text>
@@ -91,7 +98,13 @@ const MultipurposeClassScreen = ({
                             {itemDep.atos.length > 0 &&
                               itemDep.atos.map(
                                 (itemAto: any, indexAto: number) => (
-                                  <ClassItem id={itemAto.id} key={itemAto.id} />
+                                  <ClassItem
+                                    id={itemAto.id}
+                                    key={
+                                      itemAto.id +
+                                      Math.floor(Math.random() * 99999)
+                                    }
+                                  />
                                 )
                               )}
                           </View>

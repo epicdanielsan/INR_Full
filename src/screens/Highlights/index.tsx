@@ -4,7 +4,19 @@ import { Dimensions, Image, StyleSheet, View } from "react-native";
 import { Container } from "../../components/Container";
 import Highlights from "../../components/Highlights";
 
-const HighlightsScreen = () => {
+import { NativeStackNavigationProp } from "react-native-screens/lib/typescript/native-stack/types";
+import { RootListType } from "../../navigation/root";
+
+type highlightsScreenNavigationProp = NativeStackNavigationProp<
+  RootListType,
+  "Highlights"
+>;
+
+interface highlightsScreenProps {
+  navigation: highlightsScreenNavigationProp;
+}
+
+const HighlightsScreen = ({ navigation }: highlightsScreenProps) => {
   const [highlightsToShow, setHighlightsToShow] = useState<number>(5);
   const [highlights, setHighlights] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -38,6 +50,16 @@ const HighlightsScreen = () => {
     setIsLoading(false);
   };
 
+  const navigate = (item: any) => {
+    navigation.navigate("Multipurpose", {
+      item: {
+        id: item.id,
+        label: item.label,
+        tipo: item.tipo,
+      },
+    });
+  };
+
   useEffect(() => {
     initialSetup();
   }, []);
@@ -59,6 +81,7 @@ const HighlightsScreen = () => {
             minHeight={Dimensions.get("window").height}
             onPress={loadMoreHighlights}
             data={highlights}
+            navigate={navigate}
           />
         )
       )}

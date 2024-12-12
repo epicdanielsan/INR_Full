@@ -8,6 +8,7 @@ import { Container } from "../../components/Container";
 import { AuthContext } from "../../contexts/AuthenticationContext";
 import { asyncUser } from "../../lib/types";
 import { RootListType } from "../../navigation/root";
+import CraftStoriesItem from "../CraftStories/CraftStoriesItem";
 import EditorsMessageItem from "../EditorsMessage/EditorsMessageItem";
 import JurisprudenceItem from "../Jurispudence/JurisprudenceItem";
 import LegalViewItem from "../LegalView/LegalViewItem";
@@ -112,7 +113,12 @@ const MultipurposeScreen = ({
         } else {
           return commonGet("supplements", item.id);
         }
-
+      case "ht":
+        if (userToken) {
+          return loggedGet("supplements", item.id, userToken || "");
+        } else {
+          return commonGet("supplements", item.id);
+        }
       default:
         break;
     }
@@ -158,6 +164,8 @@ const MultipurposeScreen = ({
         return <EditorsMessageItem item={fetcheditem} />;
       case "supplements":
         return <SuplementsItem item={fetcheditem} />;
+      case "ht":
+        return <CraftStoriesItem item={fetcheditem} />;
       default:
         break;
     }

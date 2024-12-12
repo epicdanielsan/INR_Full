@@ -15,6 +15,10 @@ const styles = StyleSheet.create({
     color: Colors.primary.dark,
     fontWeight: "500",
   },
+  label: {
+    color: Colors.primary.title,
+    marginLeft: 10,
+  },
   image: {
     height: 80,
     width: 80,
