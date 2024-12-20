@@ -1,7 +1,7 @@
 import { DrawerNavigationProp } from "@react-navigation/drawer";
-import { RouteProp } from "@react-navigation/native";
+import { RouteProp, useFocusEffect } from "@react-navigation/native";
 import axios from "axios";
-import { Fragment, useEffect, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { ScrollView, Text, TouchableOpacity, View } from "react-native";
 import { RootListType } from "../../navigation/root";
 import { Container } from "../Container";
@@ -27,6 +27,26 @@ const IndexClassScreen = ({ route, navigation }: IndexClassScreenProps) => {
     drawerLabel: `Classificador ${classificador.type}`,
     title: `Classificador ${classificador.type} `,
   });
+
+  useFocusEffect(
+    React.useCallback(() => {
+      const fetchData = async () => {
+        try {
+          setClassState([]);
+          const indexResponse = await axios.get(
+            `https://api.legacy.publicacoesinr.com.br/classifiers/${classificador.id}`
+          );
+          if (indexResponse.data.success) {
+            setClassState(() => [indexResponse.data.data]);
+          }
+        } catch (error: any) {
+          console.log(error.message);
+        }
+      };
+
+      fetchData();
+    }, [classificador.id])
+  );
 
   useEffect(() => {
     const initialSetup = async () => {

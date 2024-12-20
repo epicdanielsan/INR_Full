@@ -39,32 +39,37 @@ const LegislationScreen = ({ navigation }: legislationScreenProps) => {
         try {
           setIsLoading(true);
           const legislationResponse = await axios.get(
-            `https://api.legacy.publicacoesinr.com.br/legislation?limit=${limit}&page=${0}`
+            `https://api.legacy.publicacoesinr.com.br/legislation?limit=${limit}&page=${page}`
           );
+
           if (legislationResponse.data.success) {
             const maped = legislationResponse.data.data.map((item: any) => {
-              let titulo: string = decode(item.titulo);
-              let resumo: string = decode(item.resumo);
+              const decodedTitulo = decode(item.titulo);
+              if (decodedTitulo) {
+                const matches = decodedTitulo.match(/<p>(.*?)<\/p>/g);
 
-              if (titulo && resumo) {
-                let parsedTitulo = titulo.match(/<p>(.*?)<\/p>/);
+                if (matches && matches.length >= 2) {
+                  // Extraia o conteúdo das duas primeiras tags <p>
+                  const primeiraVariavel = matches[0]
+                    .replace(/<\/?p>/g, "")
+                    .trim();
+                  const segundaVariavel = matches[1]
+                    .replace(/<\/?p>/g, "")
+                    .trim();
 
-                let parsedResumo = resumo.match(/<p>(.*?)<\/p>/);
+                  const resultado = `${primeiraVariavel} - ${segundaVariavel}`;
+                  console.log("resultado", resultado);
 
-                if (
-                  parsedTitulo &&
-                  parsedTitulo?.length > 0 &&
-                  parsedResumo &&
-                  parsedResumo?.length > 0
-                ) {
-                  finalTitle = `${parsedTitulo[1]} - ${parsedResumo[1]}`;
+                  return {
+                    ...item,
+                    titulo: resultado,
+                  };
+                } else {
+                  console.log("Não foi possível encontrar as duas tags <p>.");
                 }
               }
-              item = { ...item, titulo: finalTitle };
-              return item;
             });
             setLegislations(() => maped);
-            setPage(() => 0);
             setIsLoading(false);
           }
           setIsLoading(false);
@@ -88,25 +93,30 @@ const LegislationScreen = ({ navigation }: legislationScreenProps) => {
 
         if (legislationResponse.data.success) {
           const maped = legislationResponse.data.data.map((item: any) => {
-            let titulo: string = decode(item.titulo);
-            let resumo: string = decode(item.resumo);
+            const decodedTitulo = decode(item.titulo);
+            if (decodedTitulo) {
+              const matches = decodedTitulo.match(/<p>(.*?)<\/p>/g);
 
-            if (titulo && resumo) {
-              let parsedTitulo = titulo.match(/<p>(.*?)<\/p>/);
+              if (matches && matches.length >= 2) {
+                // Extraia o conteúdo das duas primeiras tags <p>
+                const primeiraVariavel = matches[0]
+                  .replace(/<\/?p>/g, "")
+                  .trim();
+                const segundaVariavel = matches[1]
+                  .replace(/<\/?p>/g, "")
+                  .trim();
 
-              let parsedResumo = resumo.match(/<p>(.*?)<\/p>/);
+                const resultado = `${primeiraVariavel} - ${segundaVariavel}`;
+                console.log("resultado", resultado);
 
-              if (
-                parsedTitulo &&
-                parsedTitulo?.length > 0 &&
-                parsedResumo &&
-                parsedResumo?.length > 0
-              ) {
-                finalTitle = `${parsedTitulo[1]} - ${parsedResumo[1]}`;
+                return {
+                  ...item,
+                  titulo: resultado,
+                };
+              } else {
+                console.log("Não foi possível encontrar as duas tags <p>.");
               }
             }
-            item = { ...item, titulo: finalTitle };
-            return item;
           });
           setLegislations(() => maped);
           setIsLoading(false);
@@ -120,40 +130,97 @@ const LegislationScreen = ({ navigation }: legislationScreenProps) => {
     initialSetup();
   }, []);
 
+  // const loadMorelegislations = async () => {
+  //   try {
+  //     const newPage = page + 1;
+  //     setPage(() => newPage);
+  //     setIsLoading(true);
+  //     const legislationResponse = await axios.get(
+  //       `https://api.legacy.publicacoesinr.com.br/legislation?limit=${limit}&page=${newPage}`
+  //     );
+
+  //     if (legislationResponse.data.success) {
+  //       const maped = legislationResponse.data.data.map((item: any) => {
+  //         const decodedTitulo = decode(item.titulo);
+  //         if (decodedTitulo) {
+  //           const matches = decodedTitulo.match(/<p>(.*?)<\/p>/g);
+
+  //           if (matches && matches.length >= 2) {
+  //             // Extraia o conteúdo das duas primeiras tags <p>
+  //             const primeiraVariavel = matches[0].replace(/<\/?p>/g, "").trim();
+  //             const segundaVariavel = matches[1].replace(/<\/?p>/g, "").trim();
+
+  //             const resultado = `${primeiraVariavel} - ${segundaVariavel}`;
+  //             console.log("resultado", resultado);
+
+  //             return {
+  //               ...item,
+  //               titulo: resultado,
+  //             };
+  //           } else {
+  //             console.log("Não foi possível encontrar as duas tags <p>.");
+  //           }
+  //         }
+  //       });
+  //       setLegislations((prev) => [prev, maped]);
+  //       setIsLoading(false);
+  //     }
+  //     setIsLoading(false);
+  //   } catch (error: any) {
+  //     console.log(error.message);
+  //   }
+  // };
+
   const loadMorelegislations = async () => {
     try {
-      const newPage = page + 1;
-      setPage(() => newPage);
+      const newPage = page + 1; // Incrementa a página
+      setPage(newPage);
+      setIsLoading(true); // Indica que os dados estão sendo carregados
+
       const legislationResponse = await axios.get(
         `https://api.legacy.publicacoesinr.com.br/legislation?limit=${limit}&page=${newPage}`
       );
+
       if (legislationResponse.data.success) {
-        const maped = legislationResponse.data.data.map((item: any) => {
-          let titulo: string = decode(item.titulo);
-          let resumo: string = decode(item.resumo);
+        const newLegislations = legislationResponse.data.data.map(
+          (item: any) => {
+            const decodedTitulo = decode(item.titulo);
+            if (decodedTitulo) {
+              const matches = decodedTitulo.match(/<p>(.*?)<\/p>/g);
 
-          if (titulo && resumo) {
-            let parsedTitulo = titulo.match(/<p>(.*?)<\/p>/);
+              if (matches && matches.length >= 2) {
+                // Extraia o conteúdo das duas primeiras tags <p>
+                const primeiraVariavel = matches[0]
+                  .replace(/<\/?p>/g, "")
+                  .trim();
+                const segundaVariavel = matches[1]
+                  .replace(/<\/?p>/g, "")
+                  .trim();
 
-            let parsedResumo = resumo.match(/<p>(.*?)<\/p>/);
-
-            if (
-              parsedTitulo &&
-              parsedTitulo?.length > 0 &&
-              parsedResumo &&
-              parsedResumo?.length > 0
-            ) {
-              finalTitle = `${parsedTitulo[1]} - ${parsedResumo[1]}`;
+                const resultado = `${primeiraVariavel} - ${segundaVariavel}`;
+                return {
+                  ...item,
+                  titulo: resultado,
+                };
+              } else {
+                console.log("Não foi possível encontrar as duas tags <p>.");
+              }
             }
+            return item; // Retorna o item original caso não seja possível processar
           }
-          item = { ...item, titulo: finalTitle };
-          return item;
-        });
-        setLegislations(() => maped);
-        setIsLoading(false);
+        );
+
+        // Adiciona os novos resultados à lista existente
+        setLegislations((prevLegislations) => [
+          ...prevLegislations,
+          ...newLegislations,
+        ]);
       }
+
+      setIsLoading(false); // Finaliza o carregamento
     } catch (error: any) {
-      console.log(error.message);
+      console.log("Erro ao carregar mais legislações:", error.message);
+      setIsLoading(false); // Finaliza o carregamento mesmo em caso de erro
     }
   };
 
