@@ -130,52 +130,11 @@ const LegislationScreen = ({ navigation }: legislationScreenProps) => {
     initialSetup();
   }, []);
 
-  // const loadMorelegislations = async () => {
-  //   try {
-  //     const newPage = page + 1;
-  //     setPage(() => newPage);
-  //     setIsLoading(true);
-  //     const legislationResponse = await axios.get(
-  //       `https://api.legacy.publicacoesinr.com.br/legislation?limit=${limit}&page=${newPage}`
-  //     );
-
-  //     if (legislationResponse.data.success) {
-  //       const maped = legislationResponse.data.data.map((item: any) => {
-  //         const decodedTitulo = decode(item.titulo);
-  //         if (decodedTitulo) {
-  //           const matches = decodedTitulo.match(/<p>(.*?)<\/p>/g);
-
-  //           if (matches && matches.length >= 2) {
-  //             // Extraia o conteúdo das duas primeiras tags <p>
-  //             const primeiraVariavel = matches[0].replace(/<\/?p>/g, "").trim();
-  //             const segundaVariavel = matches[1].replace(/<\/?p>/g, "").trim();
-
-  //             const resultado = `${primeiraVariavel} - ${segundaVariavel}`;
-  //             console.log("resultado", resultado);
-
-  //             return {
-  //               ...item,
-  //               titulo: resultado,
-  //             };
-  //           } else {
-  //             console.log("Não foi possível encontrar as duas tags <p>.");
-  //           }
-  //         }
-  //       });
-  //       setLegislations((prev) => [prev, maped]);
-  //       setIsLoading(false);
-  //     }
-  //     setIsLoading(false);
-  //   } catch (error: any) {
-  //     console.log(error.message);
-  //   }
-  // };
-
   const loadMorelegislations = async () => {
     try {
-      const newPage = page + 1; // Incrementa a página
+      const newPage = page + 1;
       setPage(newPage);
-      setIsLoading(true); // Indica que os dados estão sendo carregados
+      setIsLoading(true);
 
       const legislationResponse = await axios.get(
         `https://api.legacy.publicacoesinr.com.br/legislation?limit=${limit}&page=${newPage}`
@@ -206,21 +165,20 @@ const LegislationScreen = ({ navigation }: legislationScreenProps) => {
                 console.log("Não foi possível encontrar as duas tags <p>.");
               }
             }
-            return item; // Retorna o item original caso não seja possível processar
+            return item;
           }
         );
 
-        // Adiciona os novos resultados à lista existente
         setLegislations((prevLegislations) => [
           ...prevLegislations,
           ...newLegislations,
         ]);
       }
 
-      setIsLoading(false); // Finaliza o carregamento
+      setIsLoading(false);
     } catch (error: any) {
       console.log("Erro ao carregar mais legislações:", error.message);
-      setIsLoading(false); // Finaliza o carregamento mesmo em caso de erro
+      setIsLoading(false);
     }
   };
 
