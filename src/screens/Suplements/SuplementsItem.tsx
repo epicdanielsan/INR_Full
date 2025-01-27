@@ -15,8 +15,6 @@ const SuplementsItem = (props: editorsMessageItemProps) => {
   const authContext = useContext(AuthContext);
   const navigation = useNavigation();
 
-  console.log(props.item);
-
   return (
     <View>
       <RenderHTML

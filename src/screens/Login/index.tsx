@@ -81,7 +81,7 @@ const LoginScreen = ({ navigation }: loginScreenProps) => {
       setLoading(false);
     } catch (error: any) {
       setLoading(false);
-      console.log(error.message);
+      console.warn(error.message);
     }
   };
 

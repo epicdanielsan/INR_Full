@@ -33,7 +33,7 @@ const EditorsMessagesScreen = ({ navigation }: editorsMessagesScreenProps) => {
             setEditorsMessages(editorsMessagesResponse.data.data);
           }
         } catch (error: any) {
-          console.log(error.message);
+          console.warn(error.message);
         }
       };
 
@@ -51,7 +51,7 @@ const EditorsMessagesScreen = ({ navigation }: editorsMessagesScreenProps) => {
           setEditorsMessages(() => editorsMessagesResponse.data.data);
         }
       } catch (error: any) {
-        console.log(error.message);
+        console.warn(error.message);
       }
     };
     initialSetup();
@@ -70,7 +70,7 @@ const EditorsMessagesScreen = ({ navigation }: editorsMessagesScreenProps) => {
         ]);
       }
     } catch (error: any) {
-      console.log(error.message);
+      console.warn(error.message);
     }
   };
 
@@ -83,7 +83,7 @@ const EditorsMessagesScreen = ({ navigation }: editorsMessagesScreenProps) => {
           onPress={(item1: any) => {
             navigation.navigate("Multipurpose", {
               item: {
-                id: item1.idjurisprudencia,
+                id: item1.id,
                 label: "Mensagens dos Editores",
                 tipo: "messages-editors",
               },

@@ -46,7 +46,7 @@ const QuestionsAndAnswersScreen = ({
           }
           setIsLoading(false);
         } catch (error: any) {
-          console.log(error.message);
+          console.warn(error.message);
           setIsLoading(false);
         }
       };
@@ -67,7 +67,7 @@ const QuestionsAndAnswersScreen = ({
         }
         setIsLoading(false);
       } catch (error: any) {
-        console.log(error.message);
+        console.warn(error.message);
         setIsLoading(false);
       }
     };
@@ -90,7 +90,7 @@ const QuestionsAndAnswersScreen = ({
       }
       setIsLoading(false);
     } catch (error: any) {
-      console.log(error.message);
+      console.warn(error.message);
       setIsLoading(false);
     }
   };

@@ -1,14 +1,7 @@
 import { useFocusEffect } from "@react-navigation/native";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import {
-  Image,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { ScrollView, StyleSheet, Text, TouchableOpacity } from "react-native";
 import { NativeStackNavigationProp } from "react-native-screens/lib/typescript/native-stack/types";
 import { Container } from "../../components/Container";
 import Indexer from "../../components/Indexer";
@@ -35,21 +28,17 @@ const LegalViewScreen = ({ navigation }: legalViewScreenProps) => {
       const fetchData = async () => {
         try {
           setIsLoading(true);
+          setLegalView([]);
+          setPage(() => 0);
           const legalViewResponse = await axios.get(
-            `https://api.legacy.publicacoesinr.com.br/pareceres?limit=${limit}&page=${page}`
+            `https://api.legacy.publicacoesinr.com.br/pareceres?limit=${limit}&page=${0}`
           );
           if (legalViewResponse.data.success) {
-            const parsedLegalViews = legalViewResponse.data.data.map(
-              (item: any) => {
-                return { ...item, titulo: item.ementa };
-              }
-            );
-            setLegalView(() => parsedLegalViews);
-            setPage(() => 0);
+            setLegalView(() => legalViewResponse.data.data);
           }
           setIsLoading(false);
         } catch (error: any) {
-          console.log(error.message);
+          console.warn(error.message);
           setIsLoading(false);
         }
       };
@@ -61,22 +50,17 @@ const LegalViewScreen = ({ navigation }: legalViewScreenProps) => {
   useEffect(() => {
     const initialSetup = async () => {
       try {
-        setIsLoading(true);
+        // setIsLoading(true);
         const legalViewResponse = await axios.get(
           `https://api.legacy.publicacoesinr.com.br/pareceres?limit=${limit}&page=${page}`
         );
-        if (legalViewResponse.data.success) {
-          const parsedLegalViews = legalViewResponse.data.data.map(
-            (item: any) => {
-              return { ...item, titulo: item.ementa };
-            }
-          );
 
-          setLegalView((prev) => parsedLegalViews);
+        if (legalViewResponse.data.success) {
+          setLegalView(() => legalViewResponse.data.data);
         }
         setIsLoading(false);
       } catch (error: any) {
-        console.log(error.message);
+        console.warn(error.message);
         setIsLoading(false);
       }
     };
@@ -85,59 +69,43 @@ const LegalViewScreen = ({ navigation }: legalViewScreenProps) => {
 
   const loadMoreLegalViews = async () => {
     try {
-      setIsLoading(true);
       const newPage = page + 1;
       setPage((prev) => prev + 1);
       const legalViewResponse = await axios.get(
         `https://api.legacy.publicacoesinr.com.br/pareceres?limit=${limit}&page=${newPage}`
       );
       if (legalViewResponse.data.success) {
-        const parsedLegalViews = legalViewResponse.data.data.map(
-          (item: any) => {
-            return { ...item, titulo: item.ementa };
-          }
-        );
-        setLegalView((prev) => [...prev, ...parsedLegalViews]);
+        setLegalView((prev) => [...prev, ...legalViewResponse.data.data]);
+        setPage(newPage);
       }
-      setIsLoading(false);
     } catch (error: any) {
-      console.log(error.message);
-      setIsLoading(false);
+      console.warn(error.message);
     }
   };
 
   return (
     <Container>
-      {isLoading ? (
-        <View style={styles.gifContainer}>
-          <Image
-            source={require("../../../assets/images/Loading.gif")}
-            style={styles.gif}
-          />
-        </View>
-      ) : (
-        <ScrollView style={{ flex: 1 }}>
-          <Indexer
-            data={legalView}
-            title="Últimos Pareceres CGJ SP"
-            onPress={(item1: any) => {
-              navigation.navigate("Multipurpose", {
-                item: {
-                  id: item1.id,
-                  label: "Pareceres CGJ SP",
-                  tipo: "pareceres",
-                },
-              });
-            }}
-          />
-          <TouchableOpacity
-            style={styles.buttonContainer}
-            onPress={loadMoreLegalViews}
-          >
-            <Text style={styles.buttonText}>Clique Aqui para ver mais</Text>
-          </TouchableOpacity>
-        </ScrollView>
-      )}
+      <ScrollView style={{ flex: 1 }}>
+        <Indexer
+          data={legalView}
+          title="Últimos Pareceres CGJ SP"
+          onPress={(item1: any) => {
+            navigation.navigate("Multipurpose", {
+              item: {
+                id: item1.id,
+                label: "Pareceres CGJ SP",
+                tipo: "pareceres",
+              },
+            });
+          }}
+        />
+        <TouchableOpacity
+          style={styles.buttonContainer}
+          onPress={loadMoreLegalViews}
+        >
+          <Text style={styles.buttonText}>Clique Aqui para ver mais</Text>
+        </TouchableOpacity>
+      </ScrollView>
     </Container>
   );
 };

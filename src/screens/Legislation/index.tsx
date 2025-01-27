@@ -58,7 +58,6 @@ const LegislationScreen = ({ navigation }: legislationScreenProps) => {
                     .trim();
 
                   const resultado = `${primeiraVariavel} - ${segundaVariavel}`;
-                  console.log("resultado", resultado);
 
                   return {
                     ...item,
@@ -74,7 +73,7 @@ const LegislationScreen = ({ navigation }: legislationScreenProps) => {
           }
           setIsLoading(false);
         } catch (error: any) {
-          console.log(error.message);
+          console.warn(error.message);
           setIsLoading(false);
         }
       };
@@ -107,7 +106,6 @@ const LegislationScreen = ({ navigation }: legislationScreenProps) => {
                   .trim();
 
                 const resultado = `${primeiraVariavel} - ${segundaVariavel}`;
-                console.log("resultado", resultado);
 
                 return {
                   ...item,
@@ -123,7 +121,7 @@ const LegislationScreen = ({ navigation }: legislationScreenProps) => {
         }
         setIsLoading(false);
       } catch (error: any) {
-        console.log(error.message);
+        console.warn(error.message);
         setIsLoading(false);
       }
     };

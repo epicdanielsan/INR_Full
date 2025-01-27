@@ -1,5 +1,5 @@
 import { decode } from "html-entities";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { StyleSheet, Text, useWindowDimensions, View } from "react-native";
 import RenderHTML from "react-native-render-html";
 import Colors from "../../constants/Colors";
@@ -12,6 +12,7 @@ type legalViewItemProps = {
 const LegalViewItem = (props: legalViewItemProps) => {
   const authContext = useContext(AuthContext);
   const { width } = useWindowDimensions();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   return (
     <View>
@@ -24,13 +25,13 @@ const LegalViewItem = (props: legalViewItemProps) => {
         <View>
           <RenderHTML
             contentWidth={width}
-            source={{ html: decode(props.item.titulo) }}
+            source={{ html: decode(props.item.ementa) }}
             baseStyle={styles.title}
           />
 
           <RenderHTML
             contentWidth={width}
-            source={{ html: decode(props.item.ato) }}
+            source={{ html: decode(props.item.texto) }}
             baseStyle={styles.text}
           />
         </View>

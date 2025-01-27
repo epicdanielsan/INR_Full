@@ -40,7 +40,7 @@ const IndexClassScreen = ({ route, navigation }: IndexClassScreenProps) => {
             setClassState(() => [indexResponse.data.data]);
           }
         } catch (error: any) {
-          console.log(error.message);
+          console.warn(error.message);
         }
       };
 

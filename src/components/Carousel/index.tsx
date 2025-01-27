@@ -4,8 +4,10 @@ import {
   FlatList,
   Image,
   ImageSourcePropType,
+  Linking,
   NativeScrollEvent,
   NativeSyntheticEvent,
+  TouchableOpacity,
   View,
 } from "react-native";
 import Colors from "../../constants/Colors";
@@ -16,6 +18,7 @@ interface renderProps {
     idbanner: number;
     image: ImageSourcePropType | undefined;
     img: string;
+    link: string;
   };
   index: number;
 }
@@ -34,7 +37,17 @@ const CustomCarousel = (props: carouselProps) => {
   const renderItem = ({ item, index }: renderProps) => {
     return (
       <View>
-        <Image source={{ uri: `${item.img}` }} style={styles.image} />
+        <TouchableOpacity
+          onPress={() => {
+            if (item.link) {
+              Linking.openURL(item.link);
+            } else {
+              return;
+            }
+          }}
+        >
+          <Image source={{ uri: `${item.img}` }} style={styles.image} />
+        </TouchableOpacity>
       </View>
     );
   };

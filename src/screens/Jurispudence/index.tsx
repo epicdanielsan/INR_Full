@@ -33,7 +33,7 @@ const JurisprudenceScreen = ({ navigation }: jurisprudenceScreenProps) => {
             setJurisprudence(newsResponse.data.data);
           }
         } catch (error: any) {
-          console.log(error.message);
+          console.warn(error.message);
         }
       };
 
@@ -51,7 +51,7 @@ const JurisprudenceScreen = ({ navigation }: jurisprudenceScreenProps) => {
           setJurisprudence(() => jurisprudenceResponse.data.data);
         }
       } catch (error: any) {
-        console.log(error.message);
+        console.warn(error.message);
       }
     };
     initialSetup();
@@ -67,7 +67,7 @@ const JurisprudenceScreen = ({ navigation }: jurisprudenceScreenProps) => {
         setJurisprudence((prev) => [...prev, ...newsResponse.data.data]);
       }
     } catch (error: any) {
-      console.log(error.message);
+      console.warn(error.message);
     }
   };
 
@@ -80,7 +80,7 @@ const JurisprudenceScreen = ({ navigation }: jurisprudenceScreenProps) => {
           onPress={(item1: any) => {
             navigation.navigate("Multipurpose", {
               item: {
-                id: item1.idjurisprudencia,
+                id: item1.id,
                 label: "Jurisprudência",
                 tipo: "jurisprudence",
               },

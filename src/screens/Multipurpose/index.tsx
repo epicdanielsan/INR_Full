@@ -113,12 +113,18 @@ const MultipurposeScreen = ({
         } else {
           return commonGet("supplements", item.id);
         }
-      case "ht":
+      case "pareceres":
         if (userToken) {
-          return loggedGet("supplements", item.id, userToken || "");
+          return loggedGet("pareceres", item.id, userToken || "");
         } else {
-          return commonGet("supplements", item.id);
+          return commonGet("pareceres", item.id);
         }
+      // case "ht":
+      //   if (userToken) {
+      //     return loggedGet("supplements", item.id, userToken || "");
+      //   } else {
+      //     return commonGet("supplements", item.id);
+      //   }
       default:
         break;
     }

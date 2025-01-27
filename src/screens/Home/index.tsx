@@ -16,7 +16,7 @@ import RenderHTML from "react-native-render-html";
 import { NativeStackNavigationProp } from "react-native-screens/lib/typescript/native-stack/types";
 import CustomCarousel from "../../components/Carousel";
 import { Container } from "../../components/Container";
-import { BASE_API_HOME, EXPO_PUSH } from "../../constants/api";
+import { BASE_API_HOME } from "../../constants/api";
 import Colors from "../../constants/Colors";
 import { AuthContext } from "../../contexts/AuthenticationContext";
 import { asyncUser } from "../../lib/types";
@@ -33,35 +33,31 @@ interface homeScreenProps {
 }
 
 const HomeScreen = ({ navigation }: homeScreenProps) => {
-  // const navigation = useNavigation();
   const [banners, setBanners] = useState<any[]>([]);
   const [destaques, setDestaques] = useState<any[]>([]);
   const [publicidade, setPublicidade] = useState<any[]>([]);
   const authContext = useContext(AuthContext);
   const { width } = useWindowDimensions();
 
-  const array1 = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j"];
-  const array2 = ["1", "2", "3"];
+  // async function sendPushNotification(expoPushToken: string) {
+  //   const message = {
+  //     to: expoPushToken,
+  //     sound: "default",
+  //     title: "INR Publicações",
+  //     body: "Esta é uma notificação do Expo para o Leitor INR",
+  //     data: { someData: "goes here" },
+  //   };
 
-  async function sendPushNotification(expoPushToken: string) {
-    const message = {
-      to: expoPushToken,
-      sound: "default",
-      title: "INR Publicações",
-      body: "Esta é uma notificação do Expo para o Leitor INR",
-      data: { someData: "goes here" },
-    };
-
-    await fetch(EXPO_PUSH, {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Accept-encoding": "gzip, deflate",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(message),
-    });
-  }
+  //   await fetch(EXPO_PUSH, {
+  //     method: "POST",
+  //     headers: {
+  //       Accept: "application/json",
+  //       "Accept-encoding": "gzip, deflate",
+  //       "Content-Type": "application/json",
+  //     },
+  //     body: JSON.stringify(message),
+  //   });
+  // }
 
   //Buscar os banners na API
   const initialSetup = async () => {
@@ -98,21 +94,6 @@ const HomeScreen = ({ navigation }: homeScreenProps) => {
             }
           );
           setPublicidade(() => [...parsedUrls]);
-          // let result = decode(response.publicidade[0].texto);
-          // console.log("result", result);
-
-          // const imgTags = result.match(/<img [^>]*src="[^"]*"[^>]*>/gm);
-          // console.log("imgTags", imgTags);
-
-          // const sources = result
-          //   .match(/<img [^>]*src="[^"]*"[^>]*>/gm)
-          //   .map((x) => x.replace(/.*src="([^"]*)".*/, "$1"));
-          // console.log("sources", sources);
-          // const src = result.slice(result.indexOf("src")).split('"')[1];
-          // console.log("src", src);
-
-          // setPublicidade(response.publicidade);
-          // console.log(decode(response.publicidade[0].texto));
         }
       }
     } catch (error: any) {

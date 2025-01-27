@@ -51,6 +51,7 @@ const OpinionScreen = ({ navigation }: opinionScreenProps) => {
           if (opinionResponse.data.success) {
             const parsedOpinions = opinionResponse.data.data.map(
               (item: opinionType) => {
+                item.titulo = item.titulo.replace(/[\\r\\n]/g, "");
                 return { ...item, datacad: item.data_registro };
               }
             );
@@ -60,7 +61,7 @@ const OpinionScreen = ({ navigation }: opinionScreenProps) => {
           }
           setIsLoading(false);
         } catch (error: any) {
-          console.log(error.message);
+          console.warn(error.message);
           setIsLoading(false);
         }
       };
@@ -80,6 +81,7 @@ const OpinionScreen = ({ navigation }: opinionScreenProps) => {
         if (opinionResponse.data.success) {
           const parsedOpinions = opinionResponse.data.data.map(
             (item: opinionType) => {
+              item.titulo = item.titulo.replace(/[\\r\\n]/g, "");
               return { ...item, datacad: item.data_registro };
             }
           );
@@ -88,7 +90,7 @@ const OpinionScreen = ({ navigation }: opinionScreenProps) => {
         }
         setIsLoading(false);
       } catch (error: any) {
-        console.log(error.message);
+        console.warn(error.message);
         setIsLoading(false);
       }
     };
@@ -105,13 +107,14 @@ const OpinionScreen = ({ navigation }: opinionScreenProps) => {
       if (opinionResponse.data.success) {
         const parsedOpinions = opinionResponse.data.data.map(
           (item: opinionType) => {
+            item.titulo = item.titulo.replace(/[\\r\\n]/g, "");
             return { ...item, datacad: item.data_registro };
           }
         );
         setOpinions((prev) => [...prev, ...parsedOpinions]);
       }
     } catch (error: any) {
-      console.log(error.message);
+      console.warn(error.message);
     }
   };
 

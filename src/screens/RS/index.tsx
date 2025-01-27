@@ -61,7 +61,7 @@ const RSClassificator = ({ navigation }: navigationProps) => {
           setIsLoading(false);
         } catch (error: any) {
           setIsLoading(false);
-          console.log(error.message);
+          console.warn(error.message);
         }
       };
 

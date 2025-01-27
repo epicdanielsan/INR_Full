@@ -68,7 +68,7 @@ const SuplementsScreen = ({ navigation }: suplementsScreenProps) => {
             return;
           }
         } catch (error: any) {
-          console.log(error.message);
+          console.warn(error.message);
           setIsLoading(false);
         }
       };
@@ -108,7 +108,7 @@ const SuplementsScreen = ({ navigation }: suplementsScreenProps) => {
           return;
         }
       } catch (error: any) {
-        console.log(error.message);
+        console.warn(error.message);
         setIsLoading(false);
       }
     };
@@ -151,6 +151,7 @@ const SuplementsScreen = ({ navigation }: suplementsScreenProps) => {
     <Container>
       <ScrollView style={{ flex: 1 }}>
         <SuplementsIntroduction />
+        <Text>{JSON.stringify(suplementsTypes)}</Text>
         <View style={styles.container}>
           {rows &&
             rows.length > 0 &&

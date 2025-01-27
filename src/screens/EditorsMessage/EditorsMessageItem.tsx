@@ -22,18 +22,7 @@ const EditorsMessageItem = (props: editorsMessageItemProps) => {
         source={{ html: decode(props.item.titulo) }}
         baseStyle={styles.title}
       />
-      <Text style={styles.subtitle}>Número da Pergunta</Text>
-      <Text style={styles.text}>{props.item.numero_pergunta}</Text>
-      <Text style={styles.subtitle}>Data de Registro</Text>
-      <Text style={styles.text}>{props.item.datacad}</Text>
-      <Text style={styles.subtitle}>Pergunta</Text>
 
-      <RenderHTML
-        contentWidth={width}
-        source={{ html: decode(props.item.pergunta) }}
-        baseStyle={styles.text}
-      />
-      <Text style={styles.subtitle}>Resposta/Aspectos/Argumentos</Text>
       {!authContext.isLoggedIn ? (
         <View>
           <RenderHTML
@@ -50,7 +39,7 @@ const EditorsMessageItem = (props: editorsMessageItemProps) => {
         <View>
           <RenderHTML
             contentWidth={width}
-            source={{ html: decode(props.item.resposta) }}
+            source={{ html: decode(props.item.texto) }}
             baseStyle={styles.text}
           />
         </View>

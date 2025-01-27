@@ -31,7 +31,7 @@ const NewsScreen = ({ navigation }: newsScreenProps) => {
             setPage(() => 0);
           }
         } catch (error: any) {
-          console.log(error.message);
+          console.warn(error.message);
         }
       };
 
@@ -49,7 +49,7 @@ const NewsScreen = ({ navigation }: newsScreenProps) => {
           setNews(() => newsResponse.data.data);
         }
       } catch (error: any) {
-        console.log(error.message);
+        console.warn(error.message);
       }
     };
     initialSetup();
@@ -66,7 +66,7 @@ const NewsScreen = ({ navigation }: newsScreenProps) => {
         setNews((prev) => [...prev, ...newsResponse.data.data]);
       }
     } catch (error: any) {
-      console.log(error.message);
+      console.warn(error.message);
     }
   };
 
